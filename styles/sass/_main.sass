@@ -1,0 +1,128 @@
+.main_about_us
+    height: 576px
+    background-image: url('../../img/about_us_bg.jpg')
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover
+    background-blend-mode: soft-light
+    .container
+        padding-top: 80px
+        h4
+            color: #fff
+            @include style(34px, 600, normal)
+            width: 270px
+            height: 44px
+        h1
+            color: #F2C94C
+            @include style(60px, bold, normal)
+            margin-bottom: 24px
+        p
+            @include style(18px, 600, normal)
+            color: #fff
+            margin-bottom: 50.62px
+            width: 621px
+            height: 120px
+        button
+            @include style(16px, 700, normal)
+            cursor: pointer
+            background-color: #F2C94C
+            @include style(16px, bold, normal)
+            padding: 11.92px 33px
+            border-radius: 24px
+            width: 145px
+            height: 47.83px
+            outline: none
+            color: #333333
+.main_articles
+    background-color: #E5E5E5
+    height: 100%
+    .container
+        h4
+            color: #333333
+            @include style(34px, 600, normal)
+            padding-top: 68px
+            // height: 44px
+            margin-bottom: 44px
+        .search
+            position: relative
+            height: 60px
+            margin-bottom: 44px
+            input
+                width: 920px
+                border-radius: 40px
+                background-color: #fff
+                box-shadow: 0px -6px 8px rgba(234, 237, 242, 0.5), 0px 6px 8px rgba(234, 237, 242, 0.5)
+                border: none
+                outline: none
+                padding: 22px 716px 20px 76px
+                &::placeholder
+                    color: #BDBDBD
+                    @include style(18px, 600, normal)
+            img
+                position: absolute
+                top: 20px
+                left: 36px
+        .tags
+            width: 1102px
+            height: 36px
+            display: flex
+            margin-bottom: 44px
+            .tags_btn
+                min-width: 76px
+                height: 36px
+                border-radius: 40px
+                background-color: #fff
+                box-shadow: 0px 6px 8px rgba(234, 237, 242, 0.5)
+                color: #333333
+                cursor: pointer 
+                outline: none
+                padding: 8px 24px
+                border: none
+                @include style(14px, 400, normal)
+                &:not(:last-child)
+                    margin-right: 12px
+                &.active
+                    background-color: $colorLightBlue
+                    color: #fff
+                    background-image: url('../../img/check_mark.svg')
+                    background-repeat: no-repeat
+                    background-position: 5% center
+        .main_articles_selection
+            display: flex
+            flex-wrap: wrap
+            width: 1180px
+            padding-bottom: 80px
+            .item
+                width: 270px
+                min-height: 350px
+                margin-right: 25px
+                margin-bottom: 24px
+                box-shadow: 0px 6px 8px rgba(234, 237, 242, 0.5)
+                cursor: pointer
+                &:hover
+                    box-shadow: 0px 12px 24px rgba(188, 201, 220, 0.4)
+                img 
+                    border-radius: 15px 15px 0px 0px
+                    height: 196px
+                    width: 267px
+                &::nth-child(4n)
+                    margin-right: 0px
+                .title_wrapper
+                    background-color: #fff
+                    margin-top: -4px
+                    border-radius: 0px 0px 15px 15px
+                    width: 267px
+                    
+                    .item_title
+                        @include style(18px, 600, normal)
+                        color: #333333
+                        padding: 16px 0px 8px 16px
+                    .item_subtitle
+                        @include style(14px, 400, normal)
+                        color: #4F4F4F
+                        padding: 0px 16px 24px 16px
+                        height: 90px
+                    .oversize
+                        height: 68px
+
+                    

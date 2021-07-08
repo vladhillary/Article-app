@@ -1,0 +1,32 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-family: 'Lato'
+.container
+    width: 90%
+    margin: 0 auto
+.main
+    .container
+        width: calc(90% - 140px)
+$colorLightBlue: #2F80ED
+@mixin style ($size, $weight, $style)
+    font-size: $size
+    font-weight: $weight
+    font-style: $style
+@font-face 
+    font-family: 'Lato'
+    src: url('../fonts/Lato-Regular.ttf')
+    font-weight: 400
+@font-face 
+    font-family: 'Lato'
+    src: url('../fonts/Lato-Semibold.ttf')
+    font-weight: 600
+@font-face 
+    font-family: 'Lato'
+    src: url('../fonts/Lato-Bold.ttf')
+    font-weight: 700
+@font-face 
+    font-family: 'Open Sans'
+    src: url('../fonts/OpenSans-Regular.ttf')
+    font-weight: 400

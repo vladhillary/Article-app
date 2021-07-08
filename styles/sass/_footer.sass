@@ -1,0 +1,36 @@
+.footer
+    background-color: #333333
+    height: 80px
+    .footer_wrapper
+        display: flex
+        justify-content: space-between
+        align-items: center
+        .copyright
+            margin: 28px 0px
+            color: #fff
+        .links
+            display: flex
+            justify-content: space-between
+            .social
+                display: flex
+                justify-content: center
+                align-items: center
+                margin-right: 41px
+                a
+                    display: inline-block
+                    width: 18px
+                    height: 18px
+                    img
+                        color: #fff
+                    &:not(:last-child)
+                            margin-right: 38px  
+                            
+            .tech_support
+                margin: 24px 0px
+                a
+                    display: inline-block
+                    text-decoration: none
+                    width: 73px
+                    color: #F2C94C
+                    @include style(16px, 600, normal)
+                    font-feature-settings: 'tnum' on, 'lnum' on

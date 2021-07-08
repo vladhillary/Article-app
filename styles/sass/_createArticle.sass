@@ -1,0 +1,193 @@
+.main_form
+    background-color: #F2F2F2
+    padding-top: 64px
+    padding-bottom: 80px
+    background-image: url('../../img/createArticle_bg.svg')
+    background-repeat: no-repeat
+    background-position: 21% 62%
+.upload_img
+    border: 1px dashed #2F80ED
+    width: 1152px
+    min-height: 116px
+    margin-bottom: 52px
+    cursor: pointer
+    label
+        @include style(16px, 700, normal)
+        cursor: pointer
+        padding: 46px 519px
+        color: #2F80ED
+        display: inline-block
+    .plus_ico
+        width: 24px
+        height: 24px
+        position: relative
+        top: 6px
+        margin-right: 9px
+        cursor: pointer
+    .preview_img
+        display: flex
+        flex-wrap: wrap
+        .preview_img_block
+            padding: 10px
+            position: relative
+            img
+                height: auto
+                width: 118px
+            .preview_remove
+                width: 20px
+                height: 20px
+                position: absolute
+                right: 0
+                top: 0
+                background-color: #fff
+                display: flex
+                justify-content: center
+                align-items: center
+                cursor: pointer
+                border-radius: 50%
+                border: 2px solid #ededed
+            .preview_info
+                position: absolute
+                right: 0
+                bottom: 0
+                left: 0
+                display: flex
+                justify-content: space-between
+                align-items: center
+                height: 25px
+                background-color: #ededed
+                padding: 0px 5px
+                font-size: 10px
+
+
+.description
+    border: none
+    h6
+        color: #333333
+        @include style(18px, 600, normal)
+        margin-bottom: 24px
+    input
+        width: 1152px
+        margin-bottom: 44px
+        background-color: transparent
+        border-color: $colorLightBlue
+        color: #333333
+        &.title_input
+            height: 72px
+            padding: 25px 0px 20px 32px
+            @include style(42px,700,normal)
+            &::placeholder
+                color: #828282
+                @include style(42px,700,normal)
+
+        &.subtitle_input
+            height: 56px
+            padding: 16px 0px 12px 32px
+            @include style(24px,700,normal)
+            &::placeholder
+                color: #828282
+                @include style(24px,700,normal)
+.text_article
+    border: none
+    margin-bottom: 32px
+    p
+        color: #333333
+        @include style(18px,600,normal)
+        margin-bottom: 24px
+    textarea
+        height: 288px
+        width: 1152px
+        resize: none
+        background-color: transparent
+        padding: 20px 32px 0px 32px
+        border-color: $colorLightBlue
+        @include style(16px,400,normal)
+        color: #4F4F4F
+.add_block
+    cursor: pointer
+    color: #2F80ED
+    margin-bottom: 44px
+    @include style(14px,600,normal)
+    width: 130px
+    span
+        cursor: pointer
+        position: relative
+        top: 7px
+        display: inline-block
+        margin-right: 12px
+.add_tag
+    color: #333333
+    @include style(18px,600,normal)
+    margin-bottom: 24px
+.select_tag
+    display: flex
+    flex-wrap: wrap
+    margin-bottom: 24px
+    height: 84px
+    width: 1034px
+    .tags_btn
+        height: 36px
+        background-color: #fff
+        padding: 4px 16px 10px 22px
+        box-shadow: 0px 6px 8px rgba(234, 237, 242, 0.5)
+        border-radius: 40px
+        border: none
+        margin-bottom: 12px
+        cursor: pointer
+        &:not(:last-child)
+            margin-right: 16px
+
+        .add_tag_plus
+            display: inline-block
+            padding-right: 11.83px
+            position: relative
+            top: 5px
+.selected_tags
+    width: 1152px
+    min-height: 56px
+    border: 1px solid $colorLightBlue
+    color: #BDBDBD
+    padding: 16px 0px 16px 32px
+    .tag_btn_chose
+        background-color: $colorLightBlue
+        color: #fff
+        @includes style(14px, 400, normal)
+        padding: 8px 24px
+        border-radius: 40px
+        margin-bottom: 12px
+        background-image: url('../../img/check_mark.svg')
+        background-repeat: no-repeat
+        background-position: 5% center
+        &:not(:last-child)
+            margin-right: 12px
+
+.publish_article
+    background-color: #fff
+.publish_article
+    .container
+        width: calc(90% - 140px)
+    .publish_btn_wrapper
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        margin: 16px 0px
+        .publish_btn
+            height: 48px
+            color: #333333
+            padding: 12px 40px
+            background-color: #F2C94C
+            border-radius: 24px
+            border: none
+            cursor: pointer
+            outline: none
+            @include style(16px,700,normal)
+        .preview_btn
+            height: 48px
+            color: #FFC513
+            border: 1px solid #F2C94C
+            border-radius: 24px
+            cursor: pointer
+            outline: none
+            padding: 12px 40px
+            margin-right: 16px
+            background-color: #fff

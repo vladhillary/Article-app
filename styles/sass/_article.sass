@@ -1,0 +1,52 @@
+.article_main
+    background-color: #E5E5E5
+    .nav
+        padding-top: 48px
+        margin-bottom: 52px
+        a
+            text-decoration: none
+            color: #828282
+            @include style(18px, 600, normal)
+            &.active
+                color: #333333
+        img
+            margin: 0px 20px
+    .article_pic_wrapper
+        margin-bottom: 52px
+    .article_title
+        color: #333333
+        @include style(42px, 700,normal)
+        margin-bottom: 44px
+    h5
+        @include style(24px, 700,normal)
+        color: #4F4F4F
+        margin-bottom: 24px
+    p
+        margin-bottom: 44px
+        color: #4F4F4F
+        @include style(16px, 400,normal)
+        font-feature-settings: 'tnum' on, 'lnum' on
+        &.other_margin
+            margin-bottom: 24px
+    hr
+        margin-bottom: 23px
+    .author_info
+        display: flex
+        justify-content: space-between
+        align-items: center
+        color: #333333
+        @include style(16px, 600,normal)
+        font-feature-settings: 'tnum' on, 'lnum' on
+        margin-bottom: 52px
+    .tags_article
+        padding-bottom: 80px
+        .tags_article_btn
+            height: 36px
+            padding: 8px 24px
+            background-color: #fff
+            color: #333333
+            border-radius: 40px
+            border: none
+            &:not(:last-child)
+                margin-right: 16px
+

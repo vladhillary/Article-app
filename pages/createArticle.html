@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeverXGroup</title>
+    <link rel="stylesheet" href="../styles/css/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../img/logo.svg" alt="logo">
+            </div>
+            <div class="header_panel">
+                <div class="header_panel_user">
+                    <img src="../img/user_logo.svg" alt="user logo">
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main main_form">
+        <div class="container">
+            <div class="upload_img">
+                <input multiple='true' accept="png/jpg/svg" hidden type="file" id="show" name="picture">
+                <label for="show"><span class="plus_ico"><img src="../img/plus.svg" alt="add photo ico"></span> Add
+                    Cover</label>
+                <div class="preview_img"></div>
+            </div>
+            <fieldset class="description">
+                <h6>Enter the title of your article</h6>
+                <input class="title_input" placeholder="Enter Title" required minLength="2" type="text" name="title"
+                    type="text">
+            </fieldset>
+            <div class="add_new_block_wrapper">
+                <fieldset class="description">
+                    <h6>Enter the subtitle of your article</h6>
+                    <input class="subtitle_input" placeholder="Enter Subtitle" required minLength="2" type="text"
+                        name="subtitle" type="text">
+                </fieldset>
+                <fieldset class="text_article">
+                    <p>Tell your story...</p>
+                    <textarea name="article_text" cols="130" rows="12"></textarea>
+                </fieldset>
+            </div>
+
+            <p class="add_block"><span><img src="../img/plus.svg" alt="add block ico"></span>Add new block</p>
+            <h6 class="add_tag">Add tag information</h6>
+            <div class="select_tag"></div>
+            <div class="selected_tags">For example Angular</div>
+
+
+        </div>
+    </main>
+    <footer class="publish_article">
+        <div class="container">
+            <div class="publish_btn_wrapper">
+                <button class="preview_btn">Preview</button>
+                <button class="publish_btn">Publish</button>
+            </div>
+        </div>
+    </footer>
+    <script src="../scripts/createArticle.js"></script>
+</body>
+
+</html>
