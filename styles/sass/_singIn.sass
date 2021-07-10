@@ -1,0 +1,43 @@
+.main_singin
+    height: auto
+    background-color: #E5E5E5
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    height: 81.8vh
+    .sing_ing_wrapper
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        h2
+            @include style (60px,700,normal)
+            color: #333333
+            margin-bottom: 64px
+        .sing_in_btn
+            width: 342px
+            height: 56px
+            border-radius: 24px
+            background-color: #fff
+            display: flex
+            justify-content: center
+            align-items: center
+            cursor: pointer
+            margin-bottom: 32px
+            img
+                width: 24px
+                height: 24px
+            span
+                @include style (16px,700,normal)
+                display: inline-block
+                margin-left: 16px
+                color: #333333
+        .privacy_policy
+            span
+                color: #333333
+                @include style (14px,400,normal)
+                display: inline-block
+                margin-left: 14px
+            input
+                cursor: pointer
