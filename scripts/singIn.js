@@ -30,12 +30,13 @@ let provider = new firebase.auth.GoogleAuthProvider()
 const authWithGoogle = () => {
 
     firebase.auth().signInWithPopup(provider).then(res => {
-
+        
         const activeUserInfo = []
         const userInformation = {
             displayName: res.user.displayName,
             email: res.user.email,
-            photoURL: res.user.photoURL
+            photoURL: res.user.photoURL,
+            accessToken: res.credential.accessToken
         }
 
         activeUserInfo.push(userInformation)
