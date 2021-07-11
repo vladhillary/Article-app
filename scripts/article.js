@@ -1,3 +1,14 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
+    authDomain: "leverxangular2021.firebaseapp.com",
+    projectId: "leverxangular2021",
+    storageBucket: "leverxangular2021.appspot.com",
+    messagingSenderId: "332942002633",
+    appId: "1:332942002633:web:02810808ceb15f2407c018"
+};
+
+firebase.initializeApp(firebaseConfig);
+
 const logoBackHome = document.querySelector('.logo')
 
 logoBackHome.addEventListener('click', () => {
@@ -10,18 +21,33 @@ const tagsListArray = ['Angular', 'Programmer']
 tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_article_btn'>${el}</button>`).join('')
 
 
-
 const headerPanelBtn = document.querySelector('.header_panel_btn')
 
 const userBtn = document.createElement('button')
 
 userBtn.setAttribute('class', 'create_post')
 
-userBtn.textContent='Sing in'
+userBtn.textContent = 'Sing in'
 
-if(localStorage.getItem('test')) { //test
+headerPanelBtn.append(userBtn)
+
+if (window.localStorage.getItem('activeUser')) {
+
+    const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
+    const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
+
+    logOutBtn.textContent = 'Logout'
+
+    logOutBtn.addEventListener('click', ()=> {
+        firebase.auth().signOut().then(()=> {
+            window.localStorage.removeItem('activeUser')
+            window.location.href = './article.html'
+        }).catch(err => console.log(err))
+    })
 
     userBtn.textContent = 'Create a Post'
+
+    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
 
     const headerPanelUser = document.createElement('div')
 
@@ -30,22 +56,21 @@ if(localStorage.getItem('test')) { //test
     const userLogo = document.createElement('img')
 
     userLogo.setAttribute('alt', 'user logo')
-    userLogo.setAttribute('src', '../img/user_logo.svg')
+    userLogo.setAttribute('src', activeUserInfo[0].photoURL)
 
     headerPanelUser.append(userLogo)
 
     headerPanelBtn.after(headerPanelUser)
 
-    userBtn.addEventListener('click', ()=> {
-        window.location.href= '/pages/createArticle.html'
+    headerPanelBtn.after(logOutBtnWrapper)
+
+    userBtn.addEventListener('click', () => {
+        window.location.href = '/pages/createArticle.html'
     })
 
-} 
-
-userBtn.addEventListener('click', ()=> {
-    window.location.href= '/pages/singIn.html'
-})
-
-headerPanelBtn.append(userBtn)
-
+} else {
+    userBtn.addEventListener('click', () => {
+        window.location.href = '/pages/singIn.html'
+    })
+}
 

@@ -4,6 +4,20 @@ logoBackHome.addEventListener('click', () => {
     window.location.href = './../index.html'
 })
 
+if(window.localStorage.getItem('activeUser')){
+
+    const userPhoto = document.querySelector("img[alt='user logo']")
+
+    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
+
+    userPhoto.setAttribute('src', activeUserInfo[0].photoURL)
+
+}
+
+
+userPhoto.setAttribute('src', '')
+
+
 const addTagInfo = ['Angular', 'Design', 'SAP ABAP', 'Product Development', 'Web Disign', 'SAP TM Consultant', 'DevOps', 'UX/UI Design', 'Android', 'Frontend', 'Java', 'Programmer', 'Python']
 
 const chooseTag = document.querySelector('.select_tag')
@@ -64,8 +78,6 @@ const bytesToSize = (bytes) => {
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
-
-
 
 
 inputFile.addEventListener('change', (event) => {

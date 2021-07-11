@@ -1,6 +1,16 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
+    authDomain: "leverxangular2021.firebaseapp.com",
+    projectId: "leverxangular2021",
+    storageBucket: "leverxangular2021.appspot.com",
+    messagingSenderId: "332942002633",
+    appId: "1:332942002633:web:02810808ceb15f2407c018"
+};
+
+firebase.initializeApp(firebaseConfig);
+
 const tagsListEl = document.querySelector('.tags')
 const tagsListArray = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consultant', 'Frontend', 'Programmer', 'Python', 'DevOps']
-
 
 tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_btn'>${el}</button>`).join('')
 
@@ -31,7 +41,24 @@ userBtn.setAttribute('class', 'create_post')
 
 userBtn.textContent='Sing in'
 
-if(localStorage.getItem('test')) { //test
+
+
+headerPanelBtn.append(userBtn)
+
+if (window.localStorage.getItem('activeUser')){
+
+    const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
+    const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
+    logOutBtn.textContent = 'Logout'
+
+    logOutBtn.addEventListener('click', ()=> {
+        firebase.auth().signOut().then(()=> {
+            window.localStorage.removeItem('activeUser')
+            window.location.href = './../index.html'
+        }).catch(err => console.log(err))
+    })
+
+    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
 
     userBtn.textContent = 'Create a Post'
 
@@ -40,24 +67,22 @@ if(localStorage.getItem('test')) { //test
     headerPanelUser.setAttribute('class', 'header_panel_user')
 
     const userLogo = document.createElement('img')
-
+    
     userLogo.setAttribute('alt', 'user logo')
-    userLogo.setAttribute('src', './img/user_logo.svg')
+    userLogo.setAttribute('src', activeUserInfo[0].photoURL)
 
     headerPanelUser.append(userLogo)
 
     headerPanelBtn.after(headerPanelUser)
 
+    headerPanelBtn.after(logOutBtnWrapper)
+
     userBtn.addEventListener('click', ()=> {
         window.location.href= '/pages/createArticle.html'
     })
-
-} 
-
-userBtn.addEventListener('click', ()=> {
-    window.location.href= '/pages/singIn.html'
-})
-
-headerPanelBtn.append(userBtn)
-
+} else {
+    userBtn.addEventListener('click', ()=> {
+        window.location.href= '/pages/singIn.html'
+    })
+}
 
