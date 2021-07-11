@@ -41,9 +41,15 @@ userBtn.setAttribute('class', 'create_post')
 
 userBtn.textContent='Sing in'
 
-
-
 headerPanelBtn.append(userBtn)
+
+const logOut = ()=> {
+
+    firebase.auth().signOut().then(()=> {
+        window.localStorage.removeItem('activeUser')
+        window.location.href = './../index.html'
+    }).catch(err => console.log(err))
+}
 
 if (window.localStorage.getItem('activeUser')){
 
@@ -51,16 +57,11 @@ if (window.localStorage.getItem('activeUser')){
     const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
     logOutBtn.textContent = 'Logout'
 
-    logOutBtn.addEventListener('click', ()=> {
-        firebase.auth().signOut().then(()=> {
-            window.localStorage.removeItem('activeUser')
-            window.location.href = './../index.html'
-        }).catch(err => console.log(err))
-    })
-
-    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
+    logOutBtn.addEventListener('click',logOut)
 
     userBtn.textContent = 'Create a Post'
+
+    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
 
     const headerPanelUser = document.createElement('div')
 

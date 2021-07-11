@@ -1,12 +1,3 @@
-const logoBackHome = document.querySelector('.logo')
-
-logoBackHome.addEventListener('click', () => {
-    window.location.href = './../index.html'
-})
-
-const singInBtn = document.querySelector('.sing_in_btn')
-const checkbox = document.querySelector("input[type='checkbox']")
-
 var firebaseConfig = {
     apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
     authDomain: "leverxangular2021.firebaseapp.com",
@@ -18,26 +9,28 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const logoBackHome = document.querySelector('.logo')
+
+const backToHome = () => {
+    window.location.href = './../index.html'
+}
+
+logoBackHome.addEventListener('click', backToHome)
+
+const checkbox = document.querySelector("input[type='checkbox']")
+
+const deleteWarningAcceptPolicy = () => {
+    document.querySelector('.warning_policy')?.remove()
+}
+
+checkbox.addEventListener('click', deleteWarningAcceptPolicy)
+
 let provider = new firebase.auth.GoogleAuthProvider()
 
-singInBtn.addEventListener('click', () => {
+const authWithGoogle = () => {
 
-    if (!checkbox.checked) {
+    firebase.auth().signInWithPopup(provider).then(res => {
 
-        if (document.querySelector('.warning_policy')) return
-
-        const warning = document.createElement('div')
-        warning.setAttribute('class', 'warning_policy')
-        warning.textContent = 'Accept to our Terms of Use and Privacy Policy'
-        const acceptTerms = document.querySelector('.sing_ing_wrapper')
-        acceptTerms.append(warning)
-
-        return
-    }
-
-    firebase.auth().signInWithPopup(provider).then(res =>{
-
-    
         const activeUserInfo = []
         const userInformation = {
             displayName: res.user.displayName,
@@ -51,11 +44,31 @@ singInBtn.addEventListener('click', () => {
 
         window.location.href = './../index.html'
 
-    }).catch(err=> console.log(err))
+    }).catch(err => console.log(err))
+}
+
+const checkMarkCheckBox = ()=> {
+
+    if (document.querySelector('.warning_policy')) return
+
+    const warning = document.createElement('div')
+    warning.setAttribute('class', 'warning_policy')
+    warning.textContent = 'Accept to our Terms of Use and Privacy Policy'
+    const acceptTerms = document.querySelector('.sing_ing_wrapper')
+    acceptTerms.append(warning)
+
+}
+
+const singInBtn = document.querySelector('.sing_in_btn')
+
+singInBtn.addEventListener('click', () => {
+
+    if (!checkbox.checked) {
+
+        checkMarkCheckBox()
+        return
+    }
+
+    authWithGoogle()
 
 })
-
-checkbox.addEventListener('click', () => {
-    document.querySelector('.warning_policy')?.remove()
-})
-
