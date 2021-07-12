@@ -155,6 +155,13 @@ const addNewBlockArticle = () => {
 
     let newBlock = addNewBlockInputs.cloneNode(true)
 
+    const newSubTitleInput = newBlock.querySelector('.subtitle_input')
+
+    const newTextarea = newBlock.querySelector('textarea')
+
+    newSubTitleInput.value = ''
+    newTextarea.value = ''
+
     newBlockArticle.before(newBlock)
 }
 
