@@ -1,13 +1,6 @@
-var firebaseConfig = {
-    apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
-    authDomain: "leverxangular2021.firebaseapp.com",
-    projectId: "leverxangular2021",
-    storageBucket: "leverxangular2021.appspot.com",
-    messagingSenderId: "332942002633",
-    appId: "1:332942002633:web:02810808ceb15f2407c018"
-};
+import { fireBaseInit } from "./fireBase.js"
 
-firebase.initializeApp(firebaseConfig);
+fireBaseInit()
 
 const logoBackHome = document.querySelector('.logo')
 
@@ -21,7 +14,6 @@ const showArticleTags = () => {
 
     const tagsListEl = document.querySelector('.tags_article')
     const tagsListArray = ['Angular', 'Programmer']
-
     tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_article_btn'>${el}</button>`).join('')
 }
 
