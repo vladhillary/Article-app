@@ -1,3 +1,7 @@
+import { fireBaseInit } from "./fireBase.js"
+
+fireBaseInit()
+
 const logoBackHome = document.querySelector('.logo')
 
 const backToHome = () => {
@@ -166,3 +170,73 @@ const addNewBlockArticle = () => {
 }
 
 newBlockArticle.addEventListener('click', addNewBlockArticle)
+
+let firestoreDatabase = firebase.firestore()
+
+const getCurrentDate = () => {
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    let currentDate = new Date()
+
+    let dateString = ''
+
+    dateString = `${monthNames[currentDate.getMonth() + 1]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`
+
+    return dateString
+}
+
+const getContentForNewArticle = () => {
+
+    const contentArticle = []
+
+    const title = document.querySelector('.title_input')
+
+    const subtitles = document.querySelectorAll('.subtitle_input')
+
+    const textareas = document.querySelectorAll("textarea[name='article_text']")
+
+    const userName = JSON.parse(window.localStorage.getItem('activeUser'))[0].displayName
+
+    const currentDate =  getCurrentDate()
+
+    const subtitlesLength = subtitles.length
+
+    for (let i = 0; subtitlesLength > i; i++) {
+
+        const contentBlock = {
+            subtitle: subtitles[i].value,
+            text: textareas[i].value
+        }
+
+        contentArticle.push(contentBlock)
+    }
+
+    const newArticle = {
+        title: title.value,
+        content: contentArticle,
+        tags: addedTagsBtn,
+        user: userName,
+        date: currentDate
+    }
+
+    return newArticle
+}
+
+const addNewArticleToFirestoreDatabase = () => {
+
+    const newArticle = getContentForNewArticle()
+
+    firestoreDatabase.collection("article").add(newArticle)
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id)
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error)
+        })
+
+}
+
+const publishBtn = document.querySelector('.publish_btn')
+
+publishBtn.addEventListener('click', addNewArticleToFirestoreDatabase)

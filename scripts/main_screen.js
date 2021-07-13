@@ -79,4 +79,3 @@ if (window.localStorage.getItem('activeUser')){
         window.location.href= '/pages/singIn.html'
     })
 }
-
