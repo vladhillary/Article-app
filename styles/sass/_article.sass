@@ -13,21 +13,26 @@
             margin: 0px 20px
     .article_pic_wrapper
         margin-bottom: 52px
+        img
+            object-fit: cover
+            width: 1152px
+            height: 468px
     .article_title
         color: #333333
         @include style(42px, 700,normal)
         margin-bottom: 44px
-    h5
-        @include style(24px, 700,normal)
-        color: #4F4F4F
-        margin-bottom: 24px
-    p
-        margin-bottom: 44px
-        color: #4F4F4F
-        @include style(16px, 400,normal)
-        font-feature-settings: 'tnum' on, 'lnum' on
-        &.other_margin
+    .content_block
+        h5
+            @include style(24px, 700,normal)
+            color: #4F4F4F
             margin-bottom: 24px
+        p
+            margin-bottom: 44px
+            color: #4F4F4F
+            @include style(16px, 400,normal)
+            font-feature-settings: 'tnum' on, 'lnum' on
+            &.other_margin
+                margin-bottom: 24px
     hr
         margin-bottom: 23px
     .author_info
@@ -49,4 +54,3 @@
             border: none
             &:not(:last-child)
                 margin-right: 16px
-

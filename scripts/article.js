@@ -75,3 +75,54 @@ if (window.localStorage.getItem('activeUser')) {
     })
 }
 
+if (window.localStorage.getItem('currentArticle')) {
+
+    const currentContent = JSON.parse(window.localStorage.getItem('currentArticle'))
+
+    console.log(currentContent)
+
+    const currentTitle = document.querySelector('.article_title')
+
+    const authorName = document.querySelector('.author_info_name')
+
+    const dateOfWriting = document.querySelector('.author_info_date')
+
+    const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
+
+    const contentBlock = document.querySelector('.content_block')
+
+    currentImg.setAttribute('src', currentContent.img)
+    currentTitle.textContent = currentContent.title
+    authorName.textContent = currentContent.user
+    dateOfWriting.textContent = currentContent.date
+    contentBlock.innerHTML = ''
+
+    const amoutContent = currentContent.content
+
+    amoutContent.forEach(element => {
+
+        const subtitle = document.createElement('h5')
+        subtitle.textContent = element.subtitle
+        contentBlock.append(subtitle)
+        const paragraph = document.createElement('p')
+        paragraph.textContent = element.text
+        contentBlock.append(paragraph)
+    })
+
+    const articleTags = document.querySelector('.tags_article')
+    articleTags.innerHTML = ''
+
+    const tags = currentContent.tags
+
+    tags.forEach(el => {
+
+        const btn = document.createElement('button')
+        btn.classList.add('tags_article_btn')
+        btn.textContent = el
+        articleTags.append(btn)
+    })
+
+
+    window.localStorage.removeItem('currentArticle')
+
+}

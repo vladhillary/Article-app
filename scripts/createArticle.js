@@ -221,6 +221,7 @@ const uploadImgToFirestorage = async (newArticle) => {
         })
     })
     backToHome()
+    window.localStorage.removeItem('srcImgFromFile')
 }
 
 const getContentForNewArticle = () => {
@@ -267,15 +268,13 @@ const getContentForNewArticle = () => {
         id: id
     }
 
-    uploadImgToFirestorage(newArticle)
-
     return newArticle
 }
 
-const addNewArticleToFirestoreDatabase = async () => {
+const addNewArticleToFirestoreDatabase = () => {
 
     const newArticle = getContentForNewArticle()
-
+    uploadImgToFirestorage(newArticle)
     if (!newArticle) return
 
     firestoreDatabase.collection("article").doc(newArticle?.title).set(newArticle)
@@ -287,3 +286,15 @@ const addNewArticleToFirestoreDatabase = async () => {
 const publishBtn = document.querySelector('.publish_btn')
 
 publishBtn.addEventListener('click', addNewArticleToFirestoreDatabase)
+
+const previewBtn = document.querySelector('.preview_btn')
+
+const showPreview = () => {
+
+    const contentForPreview = getContentForNewArticle()
+    
+    window.localStorage.setItem('preview', JSON.stringify(contentForPreview))
+    window.location.href = '../pages/article.html'
+}
+
+previewBtn.addEventListener('click', showPreview)

@@ -305,6 +305,12 @@
   margin-bottom: 52px;
 }
 
+.article_main .article_pic_wrapper img {
+  object-fit: cover;
+  width: 1152px;
+  height: 468px;
+}
+
 .article_main .article_title {
   color: #333333;
   font-size: 42px;
@@ -313,7 +319,7 @@
   margin-bottom: 44px;
 }
 
-.article_main h5 {
+.article_main .content_block h5 {
   font-size: 24px;
   font-weight: 700;
   font-style: normal;
@@ -321,7 +327,7 @@
   margin-bottom: 24px;
 }
 
-.article_main p {
+.article_main .content_block p {
   margin-bottom: 44px;
   color: #4F4F4F;
   font-size: 16px;
@@ -330,7 +336,7 @@
   font-feature-settings: 'tnum' on, 'lnum' on;
 }
 
-.article_main p.other_margin {
+.article_main .content_block p.other_margin {
   margin-bottom: 24px;
 }
 

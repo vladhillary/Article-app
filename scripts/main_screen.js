@@ -89,33 +89,77 @@ const getDataFromFirestore = () => {
         querySnapshot.forEach((doc) => {
             articleRenderFromFirestoreDatabase(doc.data())
         })
-
     })
 }
 
 getDataFromFirestore()
 
+const getDataForArticle = (id) => {
+
+    firestoreDatabase.collection('article').get().then((querySnapshot) => {
+
+        querySnapshot.forEach((doc) => {
+            if (doc.data().id == id) {
+
+                window.localStorage.setItem('currentArticle', JSON.stringify(doc.data()))
+                window.location.href = '../pages/article.html'
+            }
+        })
+    })
+
+}
+const clickHandler = (event) => {
+
+
+    if (event.target.id) getDataForArticle(event.target.id)
+
+    if (event.target.classList.contains('item_subtitle')) {
+
+        let IdOfArticle = event.target.parentElement.parentElement.id
+        getDataForArticle(IdOfArticle)
+
+
+    }
+    if (event.target.hasAttribute('src')) {
+
+        let IdOfArticle = event.target.parentElement.id
+        getDataForArticle(IdOfArticle)
+    }
+
+    if (event.target.classList.contains('item_title')) {
+
+        let IdOfArticle = event.target.parentElement.parentElement.id
+
+        getDataForArticle(IdOfArticle)
+    }
+
+    if (event.target.classList.contains('title_wrapper')) {
+
+        let IdOfArticle = event.target.parentElement.id
+
+        getDataForArticle(IdOfArticle)
+    }
+
+}
+
 const articleRenderFromFirestoreDatabase = (data) => {
 
     const articlesSection = document.querySelector('.main_articles_selection')
 
-    console.log(data)
+    // console.log(data)
 
     const item = document.querySelector('.item')
 
     const newItem = item.cloneNode(true)
-    const src = JSON.parse(window.localStorage.getItem('srcImgFromFile')) 
-
+    newItem.setAttribute('id', data.id)
     newItem.querySelector('.item_title').textContent = data.title
     newItem.querySelector('.item_subtitle').textContent = data.content[0].subtitle
     newItem.querySelector('img').setAttribute('src', data.img)
 
-    
-
-    console.log(src)
-
-    console.log(newItem)
+    newItem.addEventListener('click', clickHandler)
 
     articlesSection.append(newItem)
-  
+
 }
+
+
