@@ -2,6 +2,10 @@ import { fireBaseInit } from "./fireBase.js"
 
 fireBaseInit()
 
+let img;
+let firestoreDatabase = firebase.firestore()
+let fireStorage = firebase.storage()
+
 const logoBackHome = document.querySelector('.logo')
 
 const backToHome = () => {
@@ -9,6 +13,18 @@ const backToHome = () => {
 }
 
 logoBackHome.addEventListener('click', backToHome)
+
+const inputTitle = document.querySelector('.title_input')
+
+const removeWarningForTitle = () => {
+
+    const warningForTitle = document.querySelector('.warning')
+
+    if (inputTitle.value !== '') warningForTitle?.remove()
+
+}
+
+inputTitle.addEventListener('input', removeWarningForTitle)
 
 const showUserPhoto = () => {
 
@@ -110,6 +126,8 @@ inputFile.addEventListener('change', (event) => {
 
     preview.innerHTML = ''
 
+    img = files[0]
+
     files.forEach(el => {
 
         if (!el.type.match('image')) return
@@ -129,6 +147,8 @@ inputFile.addEventListener('change', (event) => {
             </div>
             </div>
             `)
+
+            window.localStorage.setItem('srcImgFromFile', JSON.stringify(src))
         }
 
         reader.readAsDataURL(el)
@@ -171,8 +191,6 @@ const addNewBlockArticle = () => {
 
 newBlockArticle.addEventListener('click', addNewBlockArticle)
 
-let firestoreDatabase = firebase.firestore()
-
 const getCurrentDate = () => {
 
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -190,16 +208,31 @@ const getContentForNewArticle = () => {
 
     const contentArticle = []
 
-    const title = document.querySelector('.title_input')
-
     const subtitles = document.querySelectorAll('.subtitle_input')
 
     const textareas = document.querySelectorAll("textarea[name='article_text']")
 
     const userName = JSON.parse(window.localStorage.getItem('activeUser'))[0].displayName
 
-    const currentDate =  getCurrentDate()
+    const currentDate = getCurrentDate()
 
+    const id = Date.now()
+
+    if (!inputTitle.value) {
+        const warningForTitle = document.createElement('p')
+        warningForTitle.classList.add('warning')
+        warningForTitle.textContent = 'Article must have some title'
+        warningForTitle.style.cssText = "color: red; margin-bottom: 10px"
+
+        document.querySelector('.title_input').before(warningForTitle)
+        return
+    }
+
+    
+
+    const imgArticleRef = uploadImgToFirestorage()
+    
+    console.log(imgArticleRef)
     const subtitlesLength = subtitles.length
 
     for (let i = 0; subtitlesLength > i; i++) {
@@ -213,28 +246,42 @@ const getContentForNewArticle = () => {
     }
 
     const newArticle = {
-        title: title.value,
+        title: inputTitle.value,
         content: contentArticle,
         tags: addedTagsBtn,
         user: userName,
-        date: currentDate
+        date: currentDate,
+        id: id,
+        img: imgArticleRef
     }
-
+    console.log(newArticle)
     return newArticle
+}
+
+const uploadImgToFirestorage = async () => {
+
+    awiatfireStorage.ref(img.name).put(img).then((snapshot) => {
+        console.log('Uploaded or file!')
+    })
+
+    await fireStorage.ref(img.name).put(img).snapshot.ref.getDownloadURL().then((url)=>{
+        return url
+    })
 }
 
 const addNewArticleToFirestoreDatabase = () => {
 
     const newArticle = getContentForNewArticle()
 
-    firestoreDatabase.collection("article").add(newArticle)
+    if (!newArticle) return
+
+    firestoreDatabase.collection("article").doc(newArticle?.title).set(newArticle)
         .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id)
+            console.log(true)
         })
         .catch((error) => {
             console.error("Error adding document: ", error)
         })
-
 }
 
 const publishBtn = document.querySelector('.publish_btn')

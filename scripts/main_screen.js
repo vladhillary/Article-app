@@ -19,8 +19,8 @@ const articleItem = document.querySelectorAll('.item')
 
 articleItem.forEach(el => {
     el.addEventListener('click', () => {
-        
-        el.style.cssText= `box-shadow: 0px 12px 24px rgba(227, 232, 240, 0.5)`
+
+        el.style.cssText = `box-shadow: 0px 12px 24px rgba(227, 232, 240, 0.5)`
 
         window.location.href = 'pages/article.html'
     })
@@ -32,25 +32,25 @@ const userBtn = document.createElement('button')
 
 userBtn.setAttribute('class', 'create_post')
 
-userBtn.textContent='Sing in'
+userBtn.textContent = 'Sing in'
 
 headerPanelBtn.append(userBtn)
 
-const logOut = ()=> {
+const logOut = () => {
 
-    firebase.auth().signOut().then(()=> {
+    firebase.auth().signOut().then(() => {
         window.localStorage.removeItem('activeUser')
         window.location.href = './../index.html'
     }).catch(err => console.log(err))
 }
 
-if (window.localStorage.getItem('activeUser')){
+if (window.localStorage.getItem('activeUser')) {
 
     const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
     const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
     logOutBtn.textContent = 'Logout'
 
-    logOutBtn.addEventListener('click',logOut)
+    logOutBtn.addEventListener('click', logOut)
 
     userBtn.textContent = 'Create a Post'
 
@@ -61,7 +61,7 @@ if (window.localStorage.getItem('activeUser')){
     headerPanelUser.setAttribute('class', 'header_panel_user')
 
     const userLogo = document.createElement('img')
-    
+
     userLogo.setAttribute('alt', 'user logo')
     userLogo.setAttribute('src', activeUserInfo[0].photoURL)
 
@@ -71,11 +71,51 @@ if (window.localStorage.getItem('activeUser')){
 
     headerPanelBtn.after(logOutBtnWrapper)
 
-    userBtn.addEventListener('click', ()=> {
-        window.location.href= '/pages/createArticle.html'
+    userBtn.addEventListener('click', () => {
+        window.location.href = '/pages/createArticle.html'
     })
 } else {
-    userBtn.addEventListener('click', ()=> {
-        window.location.href= '/pages/singIn.html'
+    userBtn.addEventListener('click', () => {
+        window.location.href = '/pages/singIn.html'
     })
+}
+
+
+let firestoreDatabase = firebase.firestore()
+
+const getDataFromFirestore = () => {
+
+    firestoreDatabase.collection('article').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            articleRenderFromFirestoreDatabase(doc.data())
+        })
+
+    })
+}
+
+getDataFromFirestore()
+
+const articleRenderFromFirestoreDatabase = (data) => {
+
+    const articlesSection = document.querySelector('.main_articles_selection')
+
+    console.log(data)
+
+    const item = document.querySelector('.item')
+
+    const newItem = item.cloneNode(true)
+    const src = JSON.parse(window.localStorage.getItem('srcImgFromFile')) 
+
+    newItem.querySelector('.item_title').textContent = data.title
+    newItem.querySelector('.item_subtitle').textContent = data.content[0].subtitle
+    newItem.querySelector('img').setAttribute('src', src)
+
+    
+
+    console.log(src)
+
+    console.log(newItem)
+
+    articlesSection.append(newItem)
+  
 }
