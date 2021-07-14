@@ -21,7 +21,6 @@ const removeWarningForTitle = () => {
     const warningForTitle = document.querySelector('.warning')
 
     if (inputTitle.value !== '') warningForTitle?.remove()
-
 }
 
 inputTitle.addEventListener('input', removeWarningForTitle)
@@ -38,7 +37,6 @@ const showUserPhoto = () => {
 if (window.localStorage.getItem('activeUser')) {
 
     showUserPhoto()
-
 }
 
 const addTagInfo = ['Angular', 'Design', 'SAP ABAP', 'Product Development', 'Web Disign', 'SAP TM Consultant', 'DevOps', 'UX/UI Design', 'Android', 'Frontend', 'Java', 'Programmer', 'Python']
@@ -64,7 +62,6 @@ const showSelectedTagForArticle = () => {
     blockChoseTag.innerHTML = addedTagsBtn.map(el => {
         return `<button class='tag_btn_chose'>${el}</button>`
     }).join('')
-
 }
 
 const checkMouseTarget = (event) => {
@@ -165,7 +162,6 @@ inputFile.addEventListener('change', (event) => {
         const block = preview.querySelector(`[data-name='${name}']`).closest('.preview_img_block')
 
         block.remove()
-
     }
 
     preview.addEventListener('click', removeHandler)
@@ -204,6 +200,29 @@ const getCurrentDate = () => {
     return dateString
 }
 
+const uploadImgToFirestorage = async (newArticle) => {
+
+    await fireStorage.ref(img.name).put(img)
+
+    await fireStorage.ref(img.name).put(img).snapshot.ref.getDownloadURL().then((url) => {
+
+        let getArticleForUpdate = firestoreDatabase.collection('article').doc(newArticle.title)
+
+        getArticleForUpdate.update({
+            title: newArticle.title,
+            content: newArticle.content,
+            tags: newArticle.tags,
+            user: newArticle.user,
+            date: newArticle.date,
+            id: newArticle.id,
+            img: url
+        }).catch((error) => {
+            console.error("Error updating document: ", error)
+        })
+    })
+    backToHome()
+}
+
 const getContentForNewArticle = () => {
 
     const contentArticle = []
@@ -228,11 +247,6 @@ const getContentForNewArticle = () => {
         return
     }
 
-    
-
-    const imgArticleRef = uploadImgToFirestorage()
-    
-    console.log(imgArticleRef)
     const subtitlesLength = subtitles.length
 
     for (let i = 0; subtitlesLength > i; i++) {
@@ -241,7 +255,6 @@ const getContentForNewArticle = () => {
             subtitle: subtitles[i].value,
             text: textareas[i].value
         }
-
         contentArticle.push(contentBlock)
     }
 
@@ -251,34 +264,21 @@ const getContentForNewArticle = () => {
         tags: addedTagsBtn,
         user: userName,
         date: currentDate,
-        id: id,
-        img: imgArticleRef
+        id: id
     }
-    console.log(newArticle)
+
+    uploadImgToFirestorage(newArticle)
+
     return newArticle
 }
 
-const uploadImgToFirestorage = async () => {
-
-    awiatfireStorage.ref(img.name).put(img).then((snapshot) => {
-        console.log('Uploaded or file!')
-    })
-
-    await fireStorage.ref(img.name).put(img).snapshot.ref.getDownloadURL().then((url)=>{
-        return url
-    })
-}
-
-const addNewArticleToFirestoreDatabase = () => {
+const addNewArticleToFirestoreDatabase = async () => {
 
     const newArticle = getContentForNewArticle()
 
     if (!newArticle) return
 
     firestoreDatabase.collection("article").doc(newArticle?.title).set(newArticle)
-        .then((docRef) => {
-            console.log(true)
-        })
         .catch((error) => {
             console.error("Error adding document: ", error)
         })

@@ -108,7 +108,7 @@ const articleRenderFromFirestoreDatabase = (data) => {
 
     newItem.querySelector('.item_title').textContent = data.title
     newItem.querySelector('.item_subtitle').textContent = data.content[0].subtitle
-    newItem.querySelector('img').setAttribute('src', src)
+    newItem.querySelector('img').setAttribute('src', data.img)
 
     
 
