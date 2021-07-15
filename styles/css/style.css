@@ -325,6 +325,7 @@
   font-style: normal;
   color: #4F4F4F;
   margin-bottom: 24px;
+  text-align: justify;
 }
 
 .article_main .content_block p {
@@ -335,6 +336,7 @@
   font-style: normal;
   font-feature-settings: 'tnum' on, 'lnum' on;
   text-align: justify;
+  word-wrap: break-word;
 }
 
 .article_main .content_block p.other_margin {
@@ -372,6 +374,18 @@
 
 .article_main .tags_article .tags_article_btn:not(:last-child) {
   margin-right: 16px;
+}
+
+.close_preview {
+  position: fixed;
+  top: 100px;
+  right: 100px;
+  width: 100px;
+  cursor: pointer;
+}
+
+.close_preview:hover {
+  transform: scale(1.1);
 }
 
 .main_form {

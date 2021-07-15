@@ -16,6 +16,7 @@ logoBackHome.addEventListener('click', backToHome)
 
 const inputTitle = document.querySelector('.title_input')
 
+
 const removeWarningForTitle = () => {
 
     const warningForTitle = document.querySelector('.warning')
@@ -56,9 +57,10 @@ const addTagsListBtn = document.querySelectorAll('.tags_btn')
 
 const addedTagsBtn = []
 
+const blockChoseTag = document.querySelector('.selected_tags')
+
 const showSelectedTagForArticle = () => {
 
-    const blockChoseTag = document.querySelector('.selected_tags')
     blockChoseTag.innerHTML = addedTagsBtn.map(el => {
         return `<button class='tag_btn_chose'>${el}</button>`
     }).join('')
@@ -111,7 +113,6 @@ const bytesToSize = (bytes) => {
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
-
 
 inputFile.addEventListener('change', (event) => {
 
@@ -228,11 +229,11 @@ const getContentForNewArticle = () => {
 
     const contentArticle = []
 
-    const subtitles = document.querySelectorAll('.subtitle_input')
-
     const textareas = document.querySelectorAll("textarea[name='article_text']")
 
     const userName = JSON.parse(window.localStorage.getItem('activeUser'))[0].displayName
+
+    const subtitles = document.querySelectorAll('.subtitle_input')
 
     const currentDate = getCurrentDate()
 
@@ -267,13 +268,14 @@ const getContentForNewArticle = () => {
         date: currentDate,
         id: id
     }
-
+    console.log(newArticle)
     return newArticle
 }
 
 const addNewArticleToFirestoreDatabase = () => {
 
     const newArticle = getContentForNewArticle()
+
     uploadImgToFirestorage(newArticle)
     if (!newArticle) return
 
@@ -292,9 +294,58 @@ const previewBtn = document.querySelector('.preview_btn')
 const showPreview = () => {
 
     const contentForPreview = getContentForNewArticle()
-    
+
     window.localStorage.setItem('preview', JSON.stringify(contentForPreview))
     window.location.href = '../pages/article.html'
 }
 
 previewBtn.addEventListener('click', showPreview)
+
+const setValueAfterPreview = () => {
+
+    if (window.localStorage.getItem('preview')) {
+
+        const previewContent = JSON.parse(window.localStorage.getItem('preview'))
+        
+        const amoutContent = previewContent.content
+
+        if(amoutContent.length > 1) {
+
+            amoutContent.forEach((el, index) => {
+                if(index !== 0) {
+                    const addNewBlockInputs = document.querySelector('.add_new_block_wrapper')
+
+                    let newBlock = addNewBlockInputs.cloneNode(true)
+                
+                    const newSubTitleInput = newBlock.querySelector('.subtitle_input')
+                
+                    const newTextarea = newBlock.querySelector('textarea')
+                
+                    newSubTitleInput.value = el.subtitle
+                    newTextarea.value = el.text
+                
+                    newBlockArticle.before(newBlock)
+                }
+            })
+        }
+
+        const tagsArray = previewContent.tags
+
+        const addTagsBack = tagsArray.map(el => {
+
+            const btn = document.createElement('button')
+            btn.classList.add('tag_btn_chose')
+            btn.textContent = el
+            return btn
+        })
+
+        blockChoseTag.innerHTML=''
+        addTagsBack.forEach(item => {
+            blockChoseTag.append(item)
+        })
+        window.localStorage.removeItem('preview')
+        window.localStorage.removeItem('srcImgFromFile')
+    }
+}
+
+setValueAfterPreview()

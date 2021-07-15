@@ -26,12 +26,14 @@
             @include style(24px, 700,normal)
             color: #4F4F4F
             margin-bottom: 24px
+            text-align: justify
         p
             margin-bottom: 44px
             color: #4F4F4F
             @include style(16px, 400,normal)
             font-feature-settings: 'tnum' on, 'lnum' on
             text-align: justify
+            word-wrap: break-word
             &.other_margin
                 margin-bottom: 24px
     hr
@@ -55,3 +57,12 @@
             border: none
             &:not(:last-child)
                 margin-right: 16px
+.close_preview
+    position: fixed
+    top: 100px
+    right: 100px
+    width: 100px
+    cursor: pointer
+    &:hover
+        transform: scale(1.1)
+

@@ -80,32 +80,43 @@ const showForActiveUser = () => {
 
 showForActiveUser()
 
+const closePreview = () => {
+    
+    window.history.back()
+}
+
 const showCurrentArticle = () => {
 
-    if (window.localStorage.getItem('currentArticle')) {
+    const currentTitle = document.querySelector('.article_title')
 
-        const currentContent = JSON.parse(window.localStorage.getItem('currentArticle'))
+    const authorName = document.querySelector('.author_info_name')
 
-        const currentTitle = document.querySelector('.article_title')
-    
-        const authorName = document.querySelector('.author_info_name')
-    
-        const dateOfWriting = document.querySelector('.author_info_date')
-    
-        const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
-    
-        const contentBlock = document.querySelector('.content_block')
-    
-        currentImg.setAttribute('src', currentContent.img)
-        currentTitle.textContent = currentContent.title
-        authorName.textContent = currentContent.user
-        dateOfWriting.textContent = currentContent.date
+    const dateOfWriting = document.querySelector('.author_info_date')
+
+    const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
+
+    const contentBlock = document.querySelector('.content_block')
+
+    const articleTags = document.querySelector('.tags_article')
+
+    articleTags.innerHTML = ''
+
+    if (window.localStorage.getItem('preview')) {
+
+        const previewContent = JSON.parse(window.localStorage.getItem('preview'))
+
+        const currentHrefImg = JSON.parse(window.localStorage.getItem('srcImgFromFile'))
+
+        currentImg.setAttribute('src', currentHrefImg)
+        currentTitle.textContent = previewContent.title
+        authorName.textContent = previewContent.user
+        dateOfWriting.textContent = previewContent.date
         contentBlock.innerHTML = ''
-    
-        const amoutContent = currentContent.content
-    
+
+        const amoutContent = previewContent.content
+
         amoutContent.forEach(element => {
-    
+
             const subtitle = document.createElement('h5')
             subtitle.textContent = element.subtitle
             contentBlock.append(subtitle)
@@ -113,22 +124,65 @@ const showCurrentArticle = () => {
             paragraph.textContent = element.text
             contentBlock.append(paragraph)
         })
-    
-        const articleTags = document.querySelector('.tags_article')
-        articleTags.innerHTML = ''
-    
-        const tags = currentContent.tags
-    
+
+        const tags = previewContent.tags
+
         tags.forEach(el => {
-    
+
             const btn = document.createElement('button')
             btn.classList.add('tags_article_btn')
             btn.textContent = el
             articleTags.append(btn)
         })
-    
+
+        const closePreviewEl = document.createElement('img')
+
+        closePreviewEl.setAttribute('src', '../img/close_preview.png')
+        closePreviewEl.setAttribute('alt', 'close preview')
+        closePreviewEl.classList.add('close_preview')
+
+        closePreviewEl.addEventListener('click', closePreview)
+
+        const body = document.querySelector('body')
+
+        body.append(closePreviewEl)
+
+    }
+
+    if (window.localStorage.getItem('currentArticle')) {
+
+        const currentContent = JSON.parse(window.localStorage.getItem('currentArticle'))
+
+        currentImg.setAttribute('src', currentContent.img)
+        currentTitle.textContent = currentContent.title
+        authorName.textContent = currentContent.user
+        dateOfWriting.textContent = currentContent.date
+        contentBlock.innerHTML = ''
+
+        const amoutContent = currentContent.content
+
+        amoutContent.forEach(element => {
+
+            const subtitle = document.createElement('h5')
+            subtitle.textContent = element.subtitle
+            contentBlock.append(subtitle)
+            const paragraph = document.createElement('p')
+            paragraph.textContent = element.text
+            contentBlock.append(paragraph)
+        })
+
+        const tags = currentContent.tags
+
+        tags.forEach(el => {
+
+            const btn = document.createElement('button')
+            btn.classList.add('tags_article_btn')
+            btn.textContent = el
+            articleTags.append(btn)
+        })
+
         window.localStorage.removeItem('currentArticle')
-    
+
     }
 }
 
