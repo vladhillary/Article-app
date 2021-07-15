@@ -7,13 +7,7 @@ const tagsListArray = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consulta
 
 tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_btn'>${el}</button>`).join('')
 
-const tagsListBtn = document.querySelectorAll('.tags_btn')
 
-tagsListBtn.forEach(el => {
-    el.addEventListener('click', () => {
-        el.classList.toggle('active')
-    })
-})
 
 const articleItem = document.querySelectorAll('.item')
 
@@ -83,13 +77,22 @@ if (window.localStorage.getItem('activeUser')) {
 
 let firestoreDatabase = firebase.firestore()
 
+let articleArray = []
+const selectedTagArray = []
+
 const getDataFromFirestore = () => {
+
+    articleArray.splice(0, articleArray.length)
 
     firestoreDatabase.collection('article').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            articleRenderFromFirestoreDatabase(doc.data())
+
+            articleArray.push(doc.data())
         })
+
+        renderItemOfArticle()
     })
+
 }
 
 getDataFromFirestore()
@@ -142,24 +145,122 @@ const clickHandler = (event) => {
 
 }
 
-const articleRenderFromFirestoreDatabase = (data) => {
+const renderItemOfArticle = () => {
 
     const articlesSection = document.querySelector('.main_articles_selection')
+    const itemArray = document.querySelectorAll('.item')
 
-    // console.log(data)
+    itemArray.forEach(el => {
+        articlesSection.removeChild(el)
+    })
 
-    const item = document.querySelector('.item')
+    const items = createElForArticle()
 
-    const newItem = item.cloneNode(true)
-    newItem.setAttribute('id', data.id)
-    newItem.querySelector('.item_title').textContent = data.title
-    newItem.querySelector('.item_subtitle').textContent = data.content[0].subtitle
-    newItem.querySelector('img').setAttribute('src', data.img)
-
-    newItem.addEventListener('click', clickHandler)
-
-    articlesSection.append(newItem)
-
+    items.forEach(el => {
+        articlesSection.append(el)
+    })
 }
 
+const createElForArticle = () => {
+
+    let items = articleArray.map(el => {
+
+        const newItem = document.createElement('div')
+        newItem.setAttribute('id', el.id)
+        newItem.classList.add('item')
+        const img = document.createElement('img')
+        img.setAttribute('src', el.img)
+        img.setAttribute('alt', 'article item')
+        const titleWrapper = document.createElement('div')
+        titleWrapper.classList.add('title_wrapper')
+        const itemTitle = document.createElement('h6')
+        itemTitle.classList.add('item_title')
+        itemTitle.textContent = el.title
+        const itemSubTitle = document.createElement('p')
+        itemSubTitle.classList.add('item_subtitle')
+        itemSubTitle.textContent = el.content[0].subtitle
+        titleWrapper.append(itemTitle)
+        titleWrapper.append(itemSubTitle)
+        newItem.append(img)
+        newItem.append(titleWrapper)
+
+        newItem.addEventListener('click', clickHandler)
+
+        return newItem
+
+    })
+
+    return items
+}
+
+const searchInput = document.querySelector(".search input[type='text']")
+
+const searchArticleForTitle = () => {
+
+    let value = searchInput.value
+
+    articleArray = articleArray.filter(item => {
+        if (value == '') {
+            getDataFromFirestore()
+            return
+        }
+        if (item.title.toLowerCase().includes(value.toLowerCase())) {
+            return item
+        }
+    })
+
+    createElForArticle()
+    renderItemOfArticle()
+}
+
+searchInput.addEventListener('input', searchArticleForTitle)
+
+
+const tagsListBtn = document.querySelectorAll('.tags_btn')
+
+const searchArticleForTag = () => {
+
+    let activeTag = getSelectedTags()
+
+    if (activeTag.length == 0) return
+
+
+    articleArray.forEach(el => {
+        el.tags = el.tags.map(el => {
+            return el.replace(/\s+/g, '')
+        })
+    })
+
+    // articleArray = articleArray.filter(item => activeTag.includes(item.tags.join(' ')))
+
+    // console.log(articleArray)
+}
+
+const getSelectedTags = () => {
+
+    selectedTagArray.splice(0, selectedTagArray.length)
+
+    const activeTag = document.querySelectorAll('.tags_btn.active')
+    activeTag.forEach(el => {
+
+        selectedTagArray.push(el.textContent)
+        // console.log(selectedTagArray)
+
+        // createElForArticle()
+        // renderItemOfArticle()
+
+    })
+
+    return selectedTagArray
+}
+
+
+tagsListBtn.forEach(el => {
+    el.addEventListener('click', () => {
+
+        el.classList.toggle('active')
+
+        searchArticleForTag()
+    })
+})
 

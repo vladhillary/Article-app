@@ -37,92 +37,99 @@ const logOut = () => {
     }).catch(err => console.log(err))
 }
 
-if (window.localStorage.getItem('activeUser')) {
+const showForActiveUser = () => {
 
-    const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
-    const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
+    if (window.localStorage.getItem('activeUser')) {
 
-    logOutBtn.textContent = 'Logout'
+        const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
+        const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
 
-    logOutBtn.addEventListener('click', logOut)
+        logOutBtn.textContent = 'Logout'
 
-    userBtn.textContent = 'Create a Post'
+        logOutBtn.addEventListener('click', logOut)
 
-    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
+        userBtn.textContent = 'Create a Post'
 
-    const headerPanelUser = document.createElement('div')
+        const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
 
-    headerPanelUser.setAttribute('class', 'header_panel_user')
+        const headerPanelUser = document.createElement('div')
 
-    const userLogo = document.createElement('img')
+        headerPanelUser.setAttribute('class', 'header_panel_user')
 
-    userLogo.setAttribute('alt', 'user logo')
-    userLogo.setAttribute('src', activeUserInfo[0].photoURL)
+        const userLogo = document.createElement('img')
 
-    headerPanelUser.append(userLogo)
+        userLogo.setAttribute('alt', 'user logo')
+        userLogo.setAttribute('src', activeUserInfo[0].photoURL)
 
-    headerPanelBtn.after(headerPanelUser)
+        headerPanelUser.append(userLogo)
 
-    headerPanelBtn.after(logOutBtnWrapper)
+        headerPanelBtn.after(headerPanelUser)
 
-    userBtn.addEventListener('click', () => {
-        window.location.href = '/pages/createArticle.html'
-    })
+        headerPanelBtn.after(logOutBtnWrapper)
 
-} else {
-    userBtn.addEventListener('click', () => {
-        window.location.href = '/pages/singIn.html'
-    })
+        userBtn.addEventListener('click', () => {
+            window.location.href = '/pages/createArticle.html'
+        })
+
+    } else {
+        userBtn.addEventListener('click', () => {
+            window.location.href = '/pages/singIn.html'
+        })
+    }
 }
 
-if (window.localStorage.getItem('currentArticle')) {
+showForActiveUser()
 
-    const currentContent = JSON.parse(window.localStorage.getItem('currentArticle'))
+const showCurrentArticle = () => {
 
-    console.log(currentContent)
+    if (window.localStorage.getItem('currentArticle')) {
 
-    const currentTitle = document.querySelector('.article_title')
+        const currentContent = JSON.parse(window.localStorage.getItem('currentArticle'))
 
-    const authorName = document.querySelector('.author_info_name')
-
-    const dateOfWriting = document.querySelector('.author_info_date')
-
-    const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
-
-    const contentBlock = document.querySelector('.content_block')
-
-    currentImg.setAttribute('src', currentContent.img)
-    currentTitle.textContent = currentContent.title
-    authorName.textContent = currentContent.user
-    dateOfWriting.textContent = currentContent.date
-    contentBlock.innerHTML = ''
-
-    const amoutContent = currentContent.content
-
-    amoutContent.forEach(element => {
-
-        const subtitle = document.createElement('h5')
-        subtitle.textContent = element.subtitle
-        contentBlock.append(subtitle)
-        const paragraph = document.createElement('p')
-        paragraph.textContent = element.text
-        contentBlock.append(paragraph)
-    })
-
-    const articleTags = document.querySelector('.tags_article')
-    articleTags.innerHTML = ''
-
-    const tags = currentContent.tags
-
-    tags.forEach(el => {
-
-        const btn = document.createElement('button')
-        btn.classList.add('tags_article_btn')
-        btn.textContent = el
-        articleTags.append(btn)
-    })
-
-
-    window.localStorage.removeItem('currentArticle')
-
+        const currentTitle = document.querySelector('.article_title')
+    
+        const authorName = document.querySelector('.author_info_name')
+    
+        const dateOfWriting = document.querySelector('.author_info_date')
+    
+        const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
+    
+        const contentBlock = document.querySelector('.content_block')
+    
+        currentImg.setAttribute('src', currentContent.img)
+        currentTitle.textContent = currentContent.title
+        authorName.textContent = currentContent.user
+        dateOfWriting.textContent = currentContent.date
+        contentBlock.innerHTML = ''
+    
+        const amoutContent = currentContent.content
+    
+        amoutContent.forEach(element => {
+    
+            const subtitle = document.createElement('h5')
+            subtitle.textContent = element.subtitle
+            contentBlock.append(subtitle)
+            const paragraph = document.createElement('p')
+            paragraph.textContent = element.text
+            contentBlock.append(paragraph)
+        })
+    
+        const articleTags = document.querySelector('.tags_article')
+        articleTags.innerHTML = ''
+    
+        const tags = currentContent.tags
+    
+        tags.forEach(el => {
+    
+            const btn = document.createElement('button')
+            btn.classList.add('tags_article_btn')
+            btn.textContent = el
+            articleTags.append(btn)
+        })
+    
+        window.localStorage.removeItem('currentArticle')
+    
+    }
 }
+
+showCurrentArticle()

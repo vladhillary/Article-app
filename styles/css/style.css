@@ -168,6 +168,9 @@
   border: none;
   outline: none;
   padding: 22px 716px 20px 76px;
+  font-size: 18px;
+  font-weight: 600;
+  font-style: normal;
 }
 
 .main_articles .container .search input::placeholder {
@@ -261,6 +264,7 @@
   font-style: normal;
   color: #333333;
   padding: 16px 0px 8px 16px;
+  height: 65px;
 }
 
 .main_articles .container .main_articles_selection .item .title_wrapper .item_subtitle {
@@ -270,10 +274,6 @@
   color: #4F4F4F;
   padding: 0px 16px 24px 16px;
   height: 90px;
-}
-
-.main_articles .container .main_articles_selection .item .title_wrapper .oversize {
-  height: 68px;
 }
 
 .article_main {
@@ -334,6 +334,7 @@
   font-weight: 400;
   font-style: normal;
   font-feature-settings: 'tnum' on, 'lnum' on;
+  text-align: justify;
 }
 
 .article_main .content_block p.other_margin {
