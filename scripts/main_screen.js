@@ -7,8 +7,6 @@ const tagsListArray = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consulta
 
 tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_btn'>${el}</button>`).join('')
 
-
-
 const articleItem = document.querySelectorAll('.item')
 
 articleItem.forEach(el => {
@@ -74,7 +72,6 @@ if (window.localStorage.getItem('activeUser')) {
     })
 }
 
-
 let firestoreDatabase = firebase.firestore()
 
 let articleArray = []
@@ -109,10 +106,8 @@ const getDataForArticle = (id) => {
             }
         })
     })
-
 }
 const clickHandler = (event) => {
-
 
     if (event.target.id) getDataForArticle(event.target.id)
 
@@ -120,7 +115,6 @@ const clickHandler = (event) => {
 
         let IdOfArticle = event.target.parentElement.parentElement.id
         getDataForArticle(IdOfArticle)
-
 
     }
     if (event.target.hasAttribute('src')) {
@@ -142,27 +136,26 @@ const clickHandler = (event) => {
 
         getDataForArticle(IdOfArticle)
     }
-
 }
 
 const renderItemOfArticle = () => {
 
-    const articlesSection = document.querySelector('.main_articles_selection')
+    const articleSection = document.querySelector('.main_articles_selection')
     const itemArray = document.querySelectorAll('.item')
 
     itemArray.forEach(el => {
-        articlesSection.removeChild(el)
+        articleSection.removeChild(el)
     })
 
     const items = createElForArticle()
 
     items.forEach(el => {
-        articlesSection.append(el)
+        articleSection.append(el)
     })
 }
 
 const createElForArticle = () => {
-
+    
     let items = articleArray.map(el => {
 
         const newItem = document.createElement('div')
@@ -187,7 +180,6 @@ const createElForArticle = () => {
         newItem.addEventListener('click', clickHandler)
 
         return newItem
-
     })
 
     return items
@@ -196,7 +188,7 @@ const createElForArticle = () => {
 const searchInput = document.querySelector(".search input[type='text']")
 
 const searchArticleForTitle = () => {
-
+    
     let value = searchInput.value
 
     articleArray = articleArray.filter(item => {
@@ -205,6 +197,7 @@ const searchArticleForTitle = () => {
             return
         }
         if (item.title.toLowerCase().includes(value.toLowerCase())) {
+
             return item
         }
     })
@@ -215,8 +208,16 @@ const searchArticleForTitle = () => {
 
 searchInput.addEventListener('input', searchArticleForTitle)
 
-
 const tagsListBtn = document.querySelectorAll('.tags_btn')
+
+const deleteSpaceInValue = () => {
+
+    articleArray.forEach(el => {
+        el.tags = el.tags.map(el => {
+            return el.replace(/\s+/g, '')
+        })
+    })
+}
 
 const searchArticleForTag = () => {
 
@@ -224,16 +225,17 @@ const searchArticleForTag = () => {
 
     if (activeTag.length == 0) return
 
+    deleteSpaceInValue()
 
-    articleArray.forEach(el => {
-        el.tags = el.tags.map(el => {
-            return el.replace(/\s+/g, '')
+    articleArray = articleArray.filter(item => {
+
+        return item.tags.some(tag => {
+            return activeTag.includes(tag)
         })
     })
 
-    // articleArray = articleArray.filter(item => activeTag.includes(item.tags.join(' ')))
+    renderItemOfArticle()
 
-    // console.log(articleArray)
 }
 
 const getSelectedTags = () => {
@@ -244,16 +246,12 @@ const getSelectedTags = () => {
     activeTag.forEach(el => {
 
         selectedTagArray.push(el.textContent)
-        // console.log(selectedTagArray)
-
-        // createElForArticle()
-        // renderItemOfArticle()
-
     })
+
+    if (activeTag.length == 0) getDataFromFirestore()
 
     return selectedTagArray
 }
-
 
 tagsListBtn.forEach(el => {
     el.addEventListener('click', () => {
