@@ -14,7 +14,15 @@ const showArticleTags = () => {
 
     const tagsListEl = document.querySelector('.tags_article')
     const tagsListArray = ['Angular', 'Programmer']
-    tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_article_btn'>${el}</button>`).join('')
+
+    const btnArray = tagsListArray.map(el => {
+        const btn = document.createElement('button')
+        btn.classList.add('tags_article_btn')
+        btn.textContent = el
+        return btn
+    })
+
+    btnArray.forEach(item =>tagsListEl.append(item))
 }
 
 showArticleTags()
@@ -81,7 +89,7 @@ const showForActiveUser = () => {
 showForActiveUser()
 
 const closePreview = () => {
-    
+
     window.history.back()
 }
 
@@ -147,6 +155,17 @@ const showCurrentArticle = () => {
 
         body.append(closePreviewEl)
 
+        const createPost = document.querySelectorAll('.create_post')
+
+        createPost.forEach(el => {
+
+            el.setAttribute('disabled', 'disabled')
+        })
+        logoBackHome.removeEventListener('click', backToHome)
+
+        const home_link = document.querySelector(".home_link")
+
+        home_link.style.cssText = "pointer-events: none"
     }
 
     if (window.localStorage.getItem('currentArticle')) {
@@ -182,7 +201,6 @@ const showCurrentArticle = () => {
         })
 
         window.localStorage.removeItem('currentArticle')
-
     }
 }
 

@@ -618,6 +618,7 @@
   background-image: url("../../img/check_mark.svg");
   background-repeat: no-repeat;
   background-position: 5% center;
+  cursor: pointer;
 }
 
 .selected_tags .tag_btn_chose:not(:last-child) {

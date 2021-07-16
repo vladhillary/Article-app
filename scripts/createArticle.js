@@ -16,7 +16,6 @@ logoBackHome.addEventListener('click', backToHome)
 
 const inputTitle = document.querySelector('.title_input')
 
-
 const removeWarningForTitle = () => {
 
     const warningForTitle = document.querySelector('.warning')
@@ -46,9 +45,25 @@ const chooseTag = document.querySelector('.select_tag')
 
 const selectTagForArticle = () => {
 
-    chooseTag.innerHTML = addTagInfo.map(el => `<button class='tags_btn'>
-    <span class='add_tag_plus'><img src='../img/add_tag_plus.svg'></span>
-    ${el}</button>`).join('')
+    const btnArray = addTagInfo.map(el => {
+
+        const btn = document.createElement('button')
+        btn.classList.add('tags_btn')
+        const span = document.createElement('span')
+        span.classList.add('add_tag_plus')
+        btn.textContent = el
+        const plusIco = document.createElement('img')
+        plusIco.setAttribute('src', '../img/add_tag_plus.svg')
+        plusIco.setAttribute('alt', 'plus icon')
+        span.append(plusIco)
+        btn.prepend(span)
+
+        return btn
+    })
+
+    btnArray.forEach(item => {
+        chooseTag.append(item)
+    })
 }
 
 selectTagForArticle()
@@ -59,11 +74,31 @@ const addedTagsBtn = []
 
 const blockChoseTag = document.querySelector('.selected_tags')
 
+const deleteChosedTag = (e) => {
+
+    const btnContent = e.target.textContent
+    e.target.remove()
+    addedTagsBtn.forEach((el,index) =>{
+        if(btnContent == el) {
+            addedTagsBtn.splice(index,1)
+        }
+    })
+}
+
 const showSelectedTagForArticle = () => {
 
-    blockChoseTag.innerHTML = addedTagsBtn.map(el => {
-        return `<button class='tag_btn_chose'>${el}</button>`
-    }).join('')
+    const btnArray = addedTagsBtn.map(el => {
+
+        const btn = document.createElement('button')
+        btn.classList.add('tag_btn_chose')
+        btn.textContent = el
+        return btn
+    })
+    blockChoseTag.innerHTML = ''
+    btnArray.forEach(item => {
+        item.addEventListener('click', deleteChosedTag)
+        blockChoseTag.append(item)
+    })
 }
 
 const checkMouseTarget = (event) => {
@@ -114,6 +149,13 @@ const bytesToSize = (bytes) => {
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
+const removeWarningForImg = () => {
+
+    const warningForTitle = document.querySelector('.warning_img')
+
+    warningForTitle?.remove()
+}
+
 inputFile.addEventListener('change', (event) => {
 
     let files = []
@@ -125,6 +167,8 @@ inputFile.addEventListener('change', (event) => {
     preview.innerHTML = ''
 
     img = files[0]
+
+    if (img) removeWarningForImg()
 
     files.forEach(el => {
 
@@ -201,11 +245,30 @@ const getCurrentDate = () => {
     return dateString
 }
 
+const checkImg = () => {
+
+    if (!img) {
+
+        const warningForImg = document.createElement('p')
+        warningForImg.classList.add('warning_img')
+        warningForImg.textContent = 'Article must have some picture'
+        warningForImg.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
+
+        document.querySelector('.upload_img').before(warningForImg)
+        return
+    }
+    return true
+}
+
 const uploadImgToFirestorage = async (newArticle) => {
 
-    await fireStorage.ref(img.name).put(img)
+    let warningImg = checkImg()
 
-    await fireStorage.ref(img.name).put(img).snapshot.ref.getDownloadURL().then((url) => {
+    if (!warningImg) return
+
+    await fireStorage.ref(img?.name).put(img)
+
+    await fireStorage.ref(img?.name).put(img).snapshot.ref.getDownloadURL().then((url) => {
 
         let getArticleForUpdate = firestoreDatabase.collection('article').doc(newArticle.title)
 
@@ -225,7 +288,25 @@ const uploadImgToFirestorage = async (newArticle) => {
     window.localStorage.removeItem('srcImgFromFile')
 }
 
+const checkInputTitle = () => {
+
+    if (!inputTitle.value) {
+        const warningForTitle = document.createElement('p')
+        warningForTitle.classList.add('warning')
+        warningForTitle.textContent = 'Article must have some title'
+        warningForTitle.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
+
+        document.querySelector('.title_input').before(warningForTitle)
+        return
+    }
+    return true
+}
+
 const getContentForNewArticle = () => {
+
+    let warningTitle = checkInputTitle()
+
+    if (!warningTitle) return
 
     const contentArticle = []
 
@@ -238,16 +319,6 @@ const getContentForNewArticle = () => {
     const currentDate = getCurrentDate()
 
     const id = Date.now()
-
-    if (!inputTitle.value) {
-        const warningForTitle = document.createElement('p')
-        warningForTitle.classList.add('warning')
-        warningForTitle.textContent = 'Article must have some title'
-        warningForTitle.style.cssText = "color: red; margin-bottom: 10px"
-
-        document.querySelector('.title_input').before(warningForTitle)
-        return
-    }
 
     const subtitlesLength = subtitles.length
 
@@ -268,7 +339,7 @@ const getContentForNewArticle = () => {
         date: currentDate,
         id: id
     }
-    console.log(newArticle)
+
     return newArticle
 }
 
@@ -293,6 +364,12 @@ const previewBtn = document.querySelector('.preview_btn')
 
 const showPreview = () => {
 
+    let warningImg = checkImg()
+    if (!warningImg) return
+
+    let warningTitle = checkInputTitle()
+    if (!warningTitle) return
+
     const contentForPreview = getContentForNewArticle()
 
     window.localStorage.setItem('preview', JSON.stringify(contentForPreview))
@@ -306,24 +383,24 @@ const setValueAfterPreview = () => {
     if (window.localStorage.getItem('preview')) {
 
         const previewContent = JSON.parse(window.localStorage.getItem('preview'))
-        
+
         const amoutContent = previewContent.content
 
-        if(amoutContent.length > 1) {
+        if (amoutContent.length > 1) {
 
             amoutContent.forEach((el, index) => {
-                if(index !== 0) {
+                if (index !== 0) {
                     const addNewBlockInputs = document.querySelector('.add_new_block_wrapper')
 
                     let newBlock = addNewBlockInputs.cloneNode(true)
-                
+
                     const newSubTitleInput = newBlock.querySelector('.subtitle_input')
-                
+
                     const newTextarea = newBlock.querySelector('textarea')
-                
+
                     newSubTitleInput.value = el.subtitle
                     newTextarea.value = el.text
-                
+
                     newBlockArticle.before(newBlock)
                 }
             })
@@ -336,10 +413,11 @@ const setValueAfterPreview = () => {
             const btn = document.createElement('button')
             btn.classList.add('tag_btn_chose')
             btn.textContent = el
+            addedTagsBtn.push(el)
             return btn
         })
 
-        blockChoseTag.innerHTML=''
+        blockChoseTag.innerHTML = ''
         addTagsBack.forEach(item => {
             blockChoseTag.append(item)
         })

@@ -5,7 +5,16 @@ fireBaseInit()
 const tagsListEl = document.querySelector('.tags')
 const tagsListArray = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consultant', 'Frontend', 'Programmer', 'Python', 'DevOps']
 
-tagsListEl.innerHTML = tagsListArray.map(el => `<button class='tags_btn'>${el}</button>`).join('')
+const btnArray =  tagsListArray.map(el => {
+    const btn = document.createElement('button')
+    btn.classList.add('tags_btn')
+    btn.textContent = el
+    return btn
+})
+
+btnArray.forEach(item=> {
+    tagsListEl.append(item)
+})
 
 const articleItem = document.querySelectorAll('.item')
 
@@ -210,22 +219,11 @@ searchInput.addEventListener('input', searchArticleForTitle)
 
 const tagsListBtn = document.querySelectorAll('.tags_btn')
 
-const deleteSpaceInValue = () => {
-
-    articleArray.forEach(el => {
-        el.tags = el.tags.map(el => {
-            return el.replace(/\s+/g, '')
-        })
-    })
-}
-
 const searchArticleForTag = () => {
 
     let activeTag = getSelectedTags()
 
     if (activeTag.length == 0) return
-
-    deleteSpaceInValue()
 
     articleArray = articleArray.filter(item => {
 
@@ -235,7 +233,6 @@ const searchArticleForTag = () => {
     })
 
     renderItemOfArticle()
-
 }
 
 const getSelectedTags = () => {
