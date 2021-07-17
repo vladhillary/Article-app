@@ -5,13 +5,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     entry: {
-        main: path.resolve(__dirname, './scripts/main_screen.js'),
+        index: path.resolve(__dirname, './scripts/main_screen.js'),
         article: path.resolve(__dirname, './scripts/article.js'),
         createArticle: path.resolve(__dirname, './scripts/createArticle.js'),
         singIn: path.resolve(__dirname, './scripts/singIn.js')
     },
     output: {
-        filename: '[name].js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'bundle'),
     },
     plugins: [
@@ -27,7 +27,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './pages/createArticle.html',
             filename: 'createArticle.html'
-        })
+        }),
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            filename: 'index.html'
+        }),
     ],
     module: {
         rules: [
