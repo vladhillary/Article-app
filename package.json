@@ -4,7 +4,7 @@
   "description": "project for course LeverXGroup Angular 2021",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,8 @@
   "author": "khrystaforay.uladzislau",
   "license": "ISC",
   "dependencies": {
-    "firebase": "^8.7.1"
+    "firebase": "^8.7.1",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2"
   }
 }
