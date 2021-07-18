@@ -3,30 +3,31 @@ import { fireBaseInit } from "./fireBase.js"
 
 fireBaseInit()
 
-const logoBackHome = document.querySelector('.logo')
+const logoBackHome: object = document.querySelector('.logo')
 
-const backToHome = () => {
+
+const backToHome = ():void => {
     window.location.href = './../index.html'
 }
 
 logoBackHome.addEventListener('click', backToHome)
 
-const checkbox = document.querySelector("input[type='checkbox']")
+const checkbox:object = document.querySelector("input[type='checkbox']")
 
-const deleteWarningAcceptPolicy = () => {
+const deleteWarningAcceptPolicy = ():void => {
     document.querySelector('.warning_policy')?.remove()
 }
 
 checkbox.addEventListener('click', deleteWarningAcceptPolicy)
 
-let provider = new firebase.auth.GoogleAuthProvider()
+let provider:any = new firebase.auth.GoogleAuthProvider()
 
-const authWithGoogle = () => {
+const authWithGoogle = ():void => {
 
     firebase.auth().signInWithPopup(provider).then(res => {
         
-        const activeUserInfo = []
-        const userInformation = {
+        const activeUserInfo:object[] = []
+        const userInformation:object = {
             displayName: res.user.displayName,
             email: res.user.email,
             photoURL: res.user.photoURL,
@@ -42,11 +43,11 @@ const authWithGoogle = () => {
     }).catch(err => console.log(err))
 }
 
-const checkMarkCheckBox = ()=> {
+const checkMarkCheckBox = ():void=> {
 
     if (document.querySelector('.warning_policy')) return
 
-    const warning = document.createElement('div')
+    const warning:object = document.createElement('div')
     warning.setAttribute('class', 'warning_policy')
     warning.textContent = 'Accept to our Terms of Use and Privacy Policy'
     const acceptTerms = document.querySelector('.sing_ing_wrapper')
