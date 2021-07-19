@@ -34,7 +34,7 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
-                test: /\.(ttf|png|svg|jpg)$/,
+                test: /\.(png|svg|jpg)$/,
                 loader: 'file-loader',
                 options: {
                     outputPath: 'media',
