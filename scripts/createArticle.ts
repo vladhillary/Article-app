@@ -1,32 +1,45 @@
-import { fireBaseInit } from "./fireBase.js"
+import { fireBaseInit } from "./fireBase"
+import '../styles/sass/style.sass'
+import * as firebase from 'firebase'
 
+interface newArticle {
+    title: string
+    content: {
+        subtitle: string
+        text: string
+    }[]
+    tags: string[]
+    user: string
+    date: string
+    id: number
+}
 
 fireBaseInit()
 
-let img;
+let img:any;
 let firestoreDatabase = firebase.firestore()
 let fireStorage = firebase.storage()
 
-const logoBackHome = document.querySelector('.logo')
+const logoBackHome: Element = document.querySelector('.logo')
 
-const backToHome = () => {
+const backToHome = (): void => {
     window.location.href = './../index.html'
 }
 
 logoBackHome.addEventListener('click', backToHome)
 
-const inputTitle = document.querySelector('.title_input')
+const inputTitle: HTMLInputElement = document.querySelector('.title_input')
 
-const removeWarningForTitle = () => {
+const removeWarningForTitle = (): void => {
 
-    const warningForTitle = document.querySelector('.warning')
+    const warningForTitle: Element = document.querySelector('.warning')
 
     if (inputTitle.value !== '') warningForTitle?.remove()
 }
 
 inputTitle.addEventListener('input', removeWarningForTitle)
 
-const showUserPhoto = () => {
+const showUserPhoto = (): void => {
 
     const userPhoto = document.querySelector("img[alt='user logo']")
 
@@ -40,20 +53,20 @@ if (window.localStorage.getItem('activeUser')) {
     showUserPhoto()
 }
 
-const addTagInfo = ['Angular', 'Design', 'SAP ABAP', 'Product Development', 'Web Disign', 'SAP TM Consultant', 'DevOps', 'UX/UI Design', 'Android', 'Frontend', 'Java', 'Programmer', 'Python']
+const addTagInfo: string[] = ['Angular', 'Design', 'SAP ABAP', 'Product Development', 'Web Disign', 'SAP TM Consultant', 'DevOps', 'UX/UI Design', 'Android', 'Frontend', 'Java', 'Programmer', 'Python']
 
-const chooseTag = document.querySelector('.select_tag')
+const chooseTag: Element = document.querySelector('.select_tag')
 
-const selectTagForArticle = () => {
+const selectTagForArticle = (): void => {
 
-    const btnArray = addTagInfo.map(el => {
+    const btnArray: HTMLButtonElement[] = addTagInfo.map((el: string) => {
 
-        const btn = document.createElement('button')
+        const btn: HTMLButtonElement = document.createElement('button')
         btn.classList.add('tags_btn')
-        const span = document.createElement('span')
+        const span: HTMLSpanElement = document.createElement('span')
         span.classList.add('add_tag_plus')
         btn.textContent = el
-        const plusIco = document.createElement('img')
+        const plusIco: HTMLImageElement = document.createElement('img')
         plusIco.setAttribute('src', '../img/add_tag_plus.svg')
         plusIco.setAttribute('alt', 'plus icon')
         span.append(plusIco)
@@ -69,26 +82,26 @@ const selectTagForArticle = () => {
 
 selectTagForArticle()
 
-const addTagsListBtn = document.querySelectorAll('.tags_btn')
+const addTagsListBtn: NodeListOf<Element> = document.querySelectorAll('.tags_btn')
 
-const addedTagsBtn = []
+const addedTagsBtn: string[] = []
 
-const blockChoseTag = document.querySelector('.selected_tags')
+const blockChoseTag: Element = document.querySelector('.selected_tags')
 
-const deleteChosedTag = (e) => {
+const deleteChosedTag = (e: any): void => {
 
-    const btnContent = e.target.textContent
+    const btnContent: string = e.target.textContent
     e.target.remove()
-    addedTagsBtn.forEach((el,index) =>{
-        if(btnContent == el) {
-            addedTagsBtn.splice(index,1)
+    addedTagsBtn.forEach((el, index) => {
+        if (btnContent == el) {
+            addedTagsBtn.splice(index, 1)
         }
     })
 }
 
-const showSelectedTagForArticle = () => {
+const showSelectedTagForArticle = (): void => {
 
-    const btnArray = addedTagsBtn.map(el => {
+    const btnArray: HTMLButtonElement[] = addedTagsBtn.map(el => {
 
         const btn = document.createElement('button')
         btn.classList.add('tag_btn_chose')
@@ -102,11 +115,11 @@ const showSelectedTagForArticle = () => {
     })
 }
 
-const checkMouseTarget = (event) => {
+const checkMouseTarget = (event: any): void => {
 
     if (event.target.classList.contains('tags_btn')) {
 
-        let textOfTag = event.target.textContent
+        let textOfTag: string = event.target.textContent
 
         if (addedTagsBtn.indexOf(textOfTag) == -1) {
             addedTagsBtn.push(textOfTag)
@@ -114,7 +127,7 @@ const checkMouseTarget = (event) => {
     }
     if (event.target.hasAttribute('src')) {
 
-        let textOfTag = event.target.parentElement.parentElement.textContent
+        let textOfTag: string = event.target.parentElement.parentElement.textContent
 
         if (addedTagsBtn.indexOf(textOfTag) == -1) {
             addedTagsBtn.push(textOfTag)
@@ -123,7 +136,7 @@ const checkMouseTarget = (event) => {
 
     if (event.target.classList.contains('add_tag_plus')) {
 
-        let textOfTag = event.target.parentElement.textContent
+        let textOfTag: string = event.target.parentElement.textContent
 
         if (addedTagsBtn.indexOf(textOfTag) == -1) {
             addedTagsBtn.push(textOfTag)
@@ -137,29 +150,29 @@ addTagsListBtn.forEach(el => {
     el.addEventListener('click', checkMouseTarget)
 })
 
-const inputFile = document.querySelector('#show')
-const preview = document.querySelector('.preview_img')
+const inputFile: HTMLInputElement = document.querySelector('#show')
+const preview: Element = document.querySelector('.preview_img')
 
-const bytesToSize = (bytes) => {
+const bytesToSize = (bytes: number): string => {
 
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+    const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB']
 
     if (!bytes) return '0 Byte'
 
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
+    const i:number = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
-const removeWarningForImg = () => {
+const removeWarningForImg = (): void => {
 
-    const warningForTitle = document.querySelector('.warning_img')
+    const warningForTitle: Element = document.querySelector('.warning_img')
 
     warningForTitle?.remove()
 }
 
-inputFile.addEventListener('change', (event) => {
+inputFile.addEventListener('change', (event: any) => {
 
-    let files = []
+    let files:Blob[] = []
 
     if (!event.target.files.length) return
 
@@ -171,11 +184,11 @@ inputFile.addEventListener('change', (event) => {
 
     if (img) removeWarningForImg()
 
-    files.forEach(el => {
+    files.forEach((el:any) => {
 
         if (!el.type.match('image')) return
 
-        const reader = new FileReader()
+        const reader: FileReader = new FileReader()
 
         reader.onload = e => {
             const src = e.target.result
@@ -197,7 +210,7 @@ inputFile.addEventListener('change', (event) => {
         reader.readAsDataURL(el)
     })
 
-    const removeHandler = (e) => {
+    const removeHandler = (e:any): void => {
 
         if (!e.target.dataset.name) return
 
@@ -213,17 +226,17 @@ inputFile.addEventListener('change', (event) => {
     preview.addEventListener('click', removeHandler)
 })
 
-const newBlockArticle = document.querySelector('.add_block')
+const newBlockArticle: Element = document.querySelector('.add_block')
 
-const addNewBlockArticle = () => {
+const addNewBlockArticle = (): void => {
 
-    const addNewBlockInputs = document.querySelector('.add_new_block_wrapper')
+    const addNewBlockInputs: Element = document.querySelector('.add_new_block_wrapper')
 
-    let newBlock = addNewBlockInputs.cloneNode(true)
+    let newBlock: Node = addNewBlockInputs.cloneNode(true)
 
-    const newSubTitleInput = newBlock.querySelector('.subtitle_input')
+    const newSubTitleInput: HTMLInputElement = newBlock.parentNode.querySelector('.subtitle_input')
 
-    const newTextarea = newBlock.querySelector('textarea')
+    const newTextarea: HTMLTextAreaElement = newBlock.parentNode.querySelector('textarea')
 
     newSubTitleInput.value = ''
     newTextarea.value = ''
@@ -233,13 +246,13 @@ const addNewBlockArticle = () => {
 
 newBlockArticle.addEventListener('click', addNewBlockArticle)
 
-const getCurrentDate = () => {
+const getCurrentDate = (): string => {
 
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const monthNames: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-    let currentDate = new Date()
+    let currentDate: Date = new Date()
 
-    let dateString = ''
+    let dateString: string = ''
 
     dateString = `${monthNames[currentDate.getMonth() + 1]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`
 
@@ -250,26 +263,28 @@ const checkImg = () => {
 
     if (!img) {
 
-        const warningForImg = document.createElement('p')
+        const warningForImg: HTMLParagraphElement = document.createElement('p')
         warningForImg.classList.add('warning_img')
         warningForImg.textContent = 'Article must have some picture'
         warningForImg.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
+        if (!document.querySelector('.warning_img')) {
+            document.querySelector('.upload_img').before(warningForImg)
+        }
 
-        document.querySelector('.upload_img').before(warningForImg)
         return
     }
     return true
 }
 
-const uploadImgToFirestorage = async (newArticle) => {
+const uploadImgToFirestorage = async (newArticle:newArticle) => {
 
-    let warningImg = checkImg()
+    let warningImg: boolean = checkImg()
 
     if (!warningImg) return
 
     await fireStorage.ref(img?.name).put(img)
 
-    await fireStorage.ref(img?.name).put(img).snapshot.ref.getDownloadURL().then((url) => {
+    await fireStorage.ref(img?.name).put(img).snapshot.ref.getDownloadURL().then((url: any) => {
 
         let getArticleForUpdate = firestoreDatabase.collection('article').doc(newArticle.title)
 
@@ -281,7 +296,7 @@ const uploadImgToFirestorage = async (newArticle) => {
             date: newArticle.date,
             id: newArticle.id,
             img: url
-        }).catch((error) => {
+        }).catch((error: never) => {
             console.error("Error updating document: ", error)
         })
     })
@@ -292,12 +307,15 @@ const uploadImgToFirestorage = async (newArticle) => {
 const checkInputTitle = () => {
 
     if (!inputTitle.value) {
-        const warningForTitle = document.createElement('p')
+
+        const warningForTitle: HTMLParagraphElement = document.createElement('p')
         warningForTitle.classList.add('warning')
         warningForTitle.textContent = 'Article must have some title'
         warningForTitle.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
+        if (!document.querySelector('.warning')) {
+            document.querySelector('.title_input').before(warningForTitle)
+        }
 
-        document.querySelector('.title_input').before(warningForTitle)
         return
     }
     return true
@@ -305,34 +323,34 @@ const checkInputTitle = () => {
 
 const getContentForNewArticle = () => {
 
-    let warningTitle = checkInputTitle()
+    let warningTitle: boolean = checkInputTitle()
 
     if (!warningTitle) return
 
-    const contentArticle = []
+    const contentArticle: { subtitle: string, text: string }[] = []
 
-    const textareas = document.querySelectorAll("textarea[name='article_text']")
+    const textareas: NodeListOf<HTMLInputElement> = document.querySelectorAll("textarea[name='article_text']")
 
-    const userName = JSON.parse(window.localStorage.getItem('activeUser'))[0].displayName
+    const userName: string = JSON.parse(window.localStorage.getItem('activeUser'))[0].displayName
 
-    const subtitles = document.querySelectorAll('.subtitle_input')
+    const subtitles: NodeListOf<HTMLInputElement> = document.querySelectorAll('.subtitle_input')
 
-    const currentDate = getCurrentDate()
+    const currentDate: string = getCurrentDate()
 
-    const id = Date.now()
+    const id: number = Date.now()
 
-    const subtitlesLength = subtitles.length
+    const subtitlesLength: number = subtitles.length
 
     for (let i = 0; subtitlesLength > i; i++) {
 
-        const contentBlock = {
+        const contentBlock: {subtitle: string,text: string} = {
             subtitle: subtitles[i].value,
             text: textareas[i].value
         }
         contentArticle.push(contentBlock)
     }
 
-    const newArticle = {
+    const newArticle: newArticle = {
         title: inputTitle.value,
         content: contentArticle,
         tags: addedTagsBtn,
@@ -344,7 +362,7 @@ const getContentForNewArticle = () => {
     return newArticle
 }
 
-const addNewArticleToFirestoreDatabase = () => {
+const addNewArticleToFirestoreDatabase = (): void => {
 
     const newArticle = getContentForNewArticle()
 
@@ -352,18 +370,18 @@ const addNewArticleToFirestoreDatabase = () => {
     if (!newArticle) return
 
     firestoreDatabase.collection("article").doc(newArticle?.title).set(newArticle)
-        .catch((error) => {
+        .catch((error: never) => {
             console.error("Error adding document: ", error)
         })
 }
 
-const publishBtn = document.querySelector('.publish_btn')
+const publishBtn: Element = document.querySelector('.publish_btn')
 
 publishBtn.addEventListener('click', addNewArticleToFirestoreDatabase)
 
-const previewBtn = document.querySelector('.preview_btn')
+const previewBtn: Element = document.querySelector('.preview_btn')
 
-const showPreview = () => {
+const showPreview = (): void => {
 
     let warningImg = checkImg()
     if (!warningImg) return
@@ -379,25 +397,25 @@ const showPreview = () => {
 
 previewBtn.addEventListener('click', showPreview)
 
-const setValueAfterPreview = () => {
+const setValueAfterPreview = (): void => {
 
     if (window.localStorage.getItem('preview')) {
 
         const previewContent = JSON.parse(window.localStorage.getItem('preview'))
 
-        const amoutContent = previewContent.content
+        const amoutContent:{subtitle: string, text: string}[] = previewContent.content
 
         if (amoutContent.length > 1) {
 
-            amoutContent.forEach((el, index) => {
+            amoutContent.forEach((el:{subtitle:string, text: string}, index:number) => {
                 if (index !== 0) {
                     const addNewBlockInputs = document.querySelector('.add_new_block_wrapper')
 
                     let newBlock = addNewBlockInputs.cloneNode(true)
 
-                    const newSubTitleInput = newBlock.querySelector('.subtitle_input')
+                    const newSubTitleInput:HTMLInputElement = newBlock.parentNode.querySelector('.subtitle_input')
 
-                    const newTextarea = newBlock.querySelector('textarea')
+                    const newTextarea:HTMLTextAreaElement = newBlock.parentNode.querySelector('textarea')
 
                     newSubTitleInput.value = el.subtitle
                     newTextarea.value = el.text
@@ -407,9 +425,9 @@ const setValueAfterPreview = () => {
             })
         }
 
-        const tagsArray = previewContent.tags
+        const tagsArray:string[] = previewContent.tags
 
-        const addTagsBack = tagsArray.map(el => {
+        const addTagsBack:HTMLButtonElement[] = tagsArray.map(el => {
 
             const btn = document.createElement('button')
             btn.classList.add('tag_btn_chose')

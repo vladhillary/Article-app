@@ -1,25 +1,40 @@
-import { fireBaseInit } from "./fireBase.js"
+import { fireBaseInit } from "./fireBase"
+import '../styles/sass/style.sass'
+import * as firebase from 'firebase'
 
 
 fireBaseInit()
 
-const tagsListEl = document.querySelector('.tags')
-const tagsListArray = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consultant', 'Frontend', 'Programmer', 'Python', 'DevOps']
+interface articleArray {
+    title: string
+    content: {
+        subtitle: string
+        text: string
+    }[]
+    tags: string[]
+    user: string
+    date: string
+    id: number
+    img: string
+}
 
-const btnArray =  tagsListArray.map(el => {
-    const btn = document.createElement('button')
+const tagsListEl:Element = document.querySelector('.tags')
+const tagsListArray:string[] = ['Angular', 'SAP ABAP', 'Java', 'Design', 'SAP TM Consultant', 'Frontend', 'Programmer', 'Python', 'DevOps']
+
+const btnArray:HTMLButtonElement[] =  tagsListArray.map((el:string) => {
+    const btn:HTMLButtonElement = document.createElement('button')
     btn.classList.add('tags_btn')
     btn.textContent = el
     return btn
 })
 
-btnArray.forEach(item=> {
+btnArray.forEach((item:HTMLButtonElement)=> {
     tagsListEl.append(item)
 })
 
-const articleItem = document.querySelectorAll('.item')
+const articleItem: NodeListOf<Element> = document.querySelectorAll('.item')
 
-articleItem.forEach(el => {
+articleItem.forEach((el:HTMLElement) => {
     el.addEventListener('click', () => {
 
         el.style.cssText = `box-shadow: 0px 12px 24px rgba(227, 232, 240, 0.5)`
@@ -28,9 +43,9 @@ articleItem.forEach(el => {
     })
 })
 
-const headerPanelBtn = document.querySelector('.header_panel_btn')
+const headerPanelBtn:Element = document.querySelector('.header_panel_btn')
 
-const userBtn = document.createElement('button')
+const userBtn:HTMLButtonElement = document.createElement('button')
 
 userBtn.setAttribute('class', 'create_post')
 
@@ -38,31 +53,31 @@ userBtn.textContent = 'Sing in'
 
 headerPanelBtn.append(userBtn)
 
-const logOut = () => {
+const logOut = ():void => {
 
     firebase.auth().signOut().then(() => {
         window.localStorage.removeItem('activeUser')
         window.location.href = './../index.html'
-    }).catch(err => console.log(err))
+    }).catch((err:never) => console.log(err))
 }
 
 if (window.localStorage.getItem('activeUser')) {
 
-    const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
-    const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
+    const logOutBtnWrapper:Node = headerPanelBtn.cloneNode(true)
+    const logOutBtn: HTMLElement = logOutBtnWrapper.parentNode.querySelector('.create_post')
     logOutBtn.textContent = 'Logout'
 
     logOutBtn.addEventListener('click', logOut)
 
     userBtn.textContent = 'Create a Post'
 
-    const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
+    const activeUserInfo: {accessToken:string,displayName:string,email:string,photoURL:string}[] = JSON.parse(window.localStorage.getItem('activeUser'))
 
-    const headerPanelUser = document.createElement('div')
+    const headerPanelUser: HTMLDivElement = document.createElement('div')
 
     headerPanelUser.setAttribute('class', 'header_panel_user')
 
-    const userLogo = document.createElement('img')
+    const userLogo: HTMLImageElement = document.createElement('img')
 
     userLogo.setAttribute('alt', 'user logo')
     userLogo.setAttribute('src', activeUserInfo[0].photoURL)
@@ -73,26 +88,26 @@ if (window.localStorage.getItem('activeUser')) {
 
     headerPanelBtn.after(logOutBtnWrapper)
 
-    userBtn.addEventListener('click', () => {
+    userBtn.addEventListener('click', ():void => {
         window.location.href = '/pages/createArticle.html'
     })
 } else {
-    userBtn.addEventListener('click', () => {
+    userBtn.addEventListener('click', ():void => {
         window.location.href = '/pages/singIn.html'
     })
 }
 
 let firestoreDatabase = firebase.firestore()
 
-let articleArray = []
-const selectedTagArray = []
+let articleArray:articleArray[] = []
+const selectedTagArray:string[] = []
 
-const getDataFromFirestore = () => {
+const getDataFromFirestore = ():void => {
 
     articleArray.splice(0, articleArray.length)
 
-    firestoreDatabase.collection('article').get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+    firestoreDatabase.collection('article').get().then((querySnapshot:any) => {
+        querySnapshot.forEach((doc:any) => {
 
             articleArray.push(doc.data())
         })
@@ -104,11 +119,11 @@ const getDataFromFirestore = () => {
 
 getDataFromFirestore()
 
-const getDataForArticle = (id) => {
+const getDataForArticle = (id:number|string) => {
 
-    firestoreDatabase.collection('article').get().then((querySnapshot) => {
+    firestoreDatabase.collection('article').get().then((querySnapshot:any) => {
 
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc:any) => {
             if (doc.data().id == id) {
 
                 window.localStorage.setItem('currentArticle', JSON.stringify(doc.data()))
@@ -117,7 +132,7 @@ const getDataForArticle = (id) => {
         })
     })
 }
-const clickHandler = (event) => {
+const clickHandler = (event:any):void => {
 
     if (event.target.id) getDataForArticle(event.target.id)
 
@@ -148,7 +163,7 @@ const clickHandler = (event) => {
     }
 }
 
-const renderItemOfArticle = () => {
+const renderItemOfArticle = ():void => {
 
     const articleSection = document.querySelector('.main_articles_selection')
     const itemArray = document.querySelectorAll('.item')
@@ -166,9 +181,9 @@ const renderItemOfArticle = () => {
 
 const createElForArticle = () => {
     
-    let items = articleArray.map(el => {
+    let items:HTMLDivElement[] = articleArray.map((el:articleArray) => {
 
-        const newItem = document.createElement('div')
+        const newItem:HTMLDivElement = document.createElement('div')
         newItem.setAttribute('id', el.id)
         newItem.classList.add('item')
         const img = document.createElement('img')
@@ -195,11 +210,11 @@ const createElForArticle = () => {
     return items
 }
 
-const searchInput = document.querySelector(".search input[type='text']")
+const searchInput:HTMLInputElement = document.querySelector(".search input[type='text']")
 
 const searchArticleForTitle = () => {
     
-    let value = searchInput.value
+    let value:string = searchInput.value
 
     articleArray = articleArray.filter(item => {
         if (value == '') {
@@ -218,7 +233,7 @@ const searchArticleForTitle = () => {
 
 searchInput.addEventListener('input', searchArticleForTitle)
 
-const tagsListBtn = document.querySelectorAll('.tags_btn')
+const tagsListBtn:NodeListOf<Element> = document.querySelectorAll('.tags_btn')
 
 const searchArticleForTag = () => {
 

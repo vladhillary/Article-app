@@ -6,6 +6,7 @@ fireBaseInit()
 const logoBackHome = document.querySelector('.logo')
 
 const backToHome = () => {
+    window.localStorage.removeItem('activeUser')
     window.location.href = './../index.html'
 }
 
@@ -78,11 +79,13 @@ const showForActiveUser = () => {
 
         userBtn.addEventListener('click', () => {
             window.location.href = '/pages/createArticle.html'
+            window.localStorage.removeItem('activeUser')
         })
 
     } else {
         userBtn.addEventListener('click', () => {
             window.location.href = '/pages/singIn.html'
+            window.localStorage.removeItem('activeUser')
         })
     }
 }
@@ -201,7 +204,7 @@ const showCurrentArticle = () => {
             articleTags.append(btn)
         })
 
-        window.localStorage.removeItem('currentArticle')
+        // window.localStorage.removeItem('currentArticle')
     }
 }
 

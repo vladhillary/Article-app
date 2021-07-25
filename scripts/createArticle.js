@@ -79,9 +79,9 @@ const deleteChosedTag = (e) => {
 
     const btnContent = e.target.textContent
     e.target.remove()
-    addedTagsBtn.forEach((el,index) =>{
-        if(btnContent == el) {
-            addedTagsBtn.splice(index,1)
+    addedTagsBtn.forEach((el, index) => {
+        if (btnContent == el) {
+            addedTagsBtn.splice(index, 1)
         }
     })
 }
@@ -254,8 +254,10 @@ const checkImg = () => {
         warningForImg.classList.add('warning_img')
         warningForImg.textContent = 'Article must have some picture'
         warningForImg.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
+        if (!document.querySelector('.warning_img')) {
+            document.querySelector('.upload_img').before(warningForImg)
+        }
 
-        document.querySelector('.upload_img').before(warningForImg)
         return
     }
     return true
@@ -292,12 +294,14 @@ const uploadImgToFirestorage = async (newArticle) => {
 const checkInputTitle = () => {
 
     if (!inputTitle.value) {
+
         const warningForTitle = document.createElement('p')
         warningForTitle.classList.add('warning')
         warningForTitle.textContent = 'Article must have some title'
         warningForTitle.style.cssText = "color: red; margin-bottom: 10px; font-weight: bold"
-
-        document.querySelector('.title_input').before(warningForTitle)
+        if (!document.querySelector('.warning')) {
+            document.querySelector('.title_input').before(warningForTitle)
+        }
         return
     }
     return true
