@@ -90,46 +90,6 @@ eval("module.exports = __webpack_require__.p + \"af607a8992bf8af3ad0c.svg\";\n\n
 
 /***/ }),
 
-/***/ "./styles/fonts/Lato-Bold.ttf":
-/*!************************************!*\
-  !*** ./styles/fonts/Lato-Bold.ttf ***!
-  \************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("module.exports = __webpack_require__.p + \"0e269ebe7abdc15d343b.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Bold.ttf?");
-
-/***/ }),
-
-/***/ "./styles/fonts/Lato-Regular.ttf":
-/*!***************************************!*\
-  !*** ./styles/fonts/Lato-Regular.ttf ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("module.exports = __webpack_require__.p + \"4d58363fa914517a89ea.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Regular.ttf?");
-
-/***/ }),
-
-/***/ "./styles/fonts/Lato-Semibold.ttf":
-/*!****************************************!*\
-  !*** ./styles/fonts/Lato-Semibold.ttf ***!
-  \****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("module.exports = __webpack_require__.p + \"6b548e191f421eb0692a.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Semibold.ttf?");
-
-/***/ }),
-
-/***/ "./styles/fonts/OpenSans-Regular.ttf":
-/*!*******************************************!*\
-  !*** ./styles/fonts/OpenSans-Regular.ttf ***!
-  \*******************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("module.exports = __webpack_require__.p + \"edcb04362f838a40b599.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/OpenSans-Regular.ttf?");
-
-/***/ }),
-
 /***/ "./styles/sass/style.sass":
 /*!********************************!*\
   !*** ./styles/sass/style.sass ***!
@@ -197,6 +157,46 @@ eval("\n\n/* istanbul ignore next  */\nfunction apply(style, options, obj) {\n  
 /***/ ((module) => {
 
 eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, style) {\n  if (style.styleSheet) {\n    style.styleSheet.cssText = css;\n  } else {\n    while (style.firstChild) {\n      style.removeChild(style.firstChild);\n    }\n\n    style.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://leverxangular2021/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
+
+/***/ }),
+
+/***/ "./styles/fonts/Lato-Bold.ttf":
+/*!************************************!*\
+  !*** ./styles/fonts/Lato-Bold.ttf ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"9cfae71062337c38b44f.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Bold.ttf?");
+
+/***/ }),
+
+/***/ "./styles/fonts/Lato-Regular.ttf":
+/*!***************************************!*\
+  !*** ./styles/fonts/Lato-Regular.ttf ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"cbcf73593dd54516d4b3.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Regular.ttf?");
+
+/***/ }),
+
+/***/ "./styles/fonts/Lato-Semibold.ttf":
+/*!****************************************!*\
+  !*** ./styles/fonts/Lato-Semibold.ttf ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"dab63590f439194ec956.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/Lato-Semibold.ttf?");
+
+/***/ }),
+
+/***/ "./styles/fonts/OpenSans-Regular.ttf":
+/*!*******************************************!*\
+  !*** ./styles/fonts/OpenSans-Regular.ttf ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"56f1eef4f0e56644f3cc.ttf\";\n\n//# sourceURL=webpack://leverxangular2021/./styles/fonts/OpenSans-Regular.ttf?");
 
 /***/ })
 
