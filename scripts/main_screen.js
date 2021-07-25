@@ -95,7 +95,6 @@ const getDataFromFirestore = () => {
         querySnapshot.forEach((doc) => {
 
             articleArray.push(doc.data())
-            console.log(articleArray)
         })
 
         renderItemOfArticle()
