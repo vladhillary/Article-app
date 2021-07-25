@@ -6,10 +6,8 @@ module.exports = {
     entry: {
         main_screen: path.resolve(__dirname, './scripts/main_screen.js'),
         article: path.resolve(__dirname, './scripts/article.js'),
-        // createArticle: path.resolve(__dirname, './scripts/createArticle.js'),
         singIn: path.resolve(__dirname, './scripts/singIn.js'),
         main: ['@babel/polyfill', './scripts/createArticle.js'],
-        // test: path.resolve(__dirname, './scripts/singIn.ts')
     },
     output: {
         filename: '[name].bundle.js',
@@ -34,7 +32,7 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"]
             },
             {
-                test: /\.(png|svg|jpg)$/,
+                test: /\.(png|svg|jpg|ttf)$/,
                 loader: 'file-loader',
                 options: {
                     outputPath: 'media',

@@ -1,36 +1,39 @@
-import { fireBaseInit } from "./fireBase.js"
+import { fireBaseInit } from "./fireBase"
+import * as firebase from 'firebase'
+import 'firebase/auth'
 import '../styles/sass/style.sass'
 
 fireBaseInit()
 
-const logoBackHome = document.querySelector('.logo')
+const logoBackHome: Element = document.querySelector('.logo')
 
-const backToHome = () => {
+const backToHome = (): void => {
+    window.localStorage.removeItem('currentArticle')
     window.location.href = './../index.html'
 }
 
 logoBackHome.addEventListener('click', backToHome)
 
-const showArticleTags = () => {
+const showArticleTags = (): void => {
 
-    const tagsListEl = document.querySelector('.tags_article')
-    const tagsListArray = ['Angular', 'Programmer']
+    const tagsListEl: Element = document.querySelector('.tags_article')
+    const tagsListArray: string[] = ['Angular', 'Programmer']
 
-    const btnArray = tagsListArray.map(el => {
-        const btn = document.createElement('button')
+    const btnArray: HTMLButtonElement[] = tagsListArray.map((el: string): HTMLButtonElement => {
+        const btn: HTMLButtonElement = document.createElement('button')
         btn.classList.add('tags_article_btn')
         btn.textContent = el
         return btn
     })
 
-    btnArray.forEach(item =>tagsListEl.append(item))
+    btnArray.forEach((item: HTMLButtonElement) => tagsListEl.append(item))
 }
 
 showArticleTags()
 
-const headerPanelBtn = document.querySelector('.header_panel_btn')
+const headerPanelBtn: Element = document.querySelector('.header_panel_btn')
 
-const userBtn = document.createElement('button')
+const userBtn: HTMLButtonElement = document.createElement('button')
 
 userBtn.setAttribute('class', 'create_post')
 
@@ -38,20 +41,22 @@ userBtn.textContent = 'Sing in'
 
 headerPanelBtn.append(userBtn)
 
-const logOut = () => {
+const logOut = (): void => {
+
+    window.localStorage.removeItem('currentArticle')
 
     firebase.auth().signOut().then(() => {
         window.localStorage.removeItem('activeUser')
         window.location.href = './article.html'
-    }).catch(err => console.log(err))
+    }).catch((err:string) => console.log(err))
 }
 
-const showForActiveUser = () => {
+const showForActiveUser = (): void => {
 
     if (window.localStorage.getItem('activeUser')) {
 
-        const logOutBtnWrapper = headerPanelBtn.cloneNode(true)
-        const logOutBtn = logOutBtnWrapper.querySelector('.create_post')
+        const logOutBtnWrapper:Node  = headerPanelBtn.cloneNode(true)
+        const logOutBtn: HTMLElement = logOutBtnWrapper.parentNode.querySelector('.create_post')
 
         logOutBtn.textContent = 'Logout'
 
@@ -59,13 +64,13 @@ const showForActiveUser = () => {
 
         userBtn.textContent = 'Create a Post'
 
-        const activeUserInfo = JSON.parse(window.localStorage.getItem('activeUser'))
+        const activeUserInfo: {accessToken:string,displayName:string,email:string,photoURL:string}[] = JSON.parse(window.localStorage.getItem('activeUser'))
 
-        const headerPanelUser = document.createElement('div')
+        const headerPanelUser: HTMLDivElement = document.createElement('div')
 
         headerPanelUser.setAttribute('class', 'header_panel_user')
 
-        const userLogo = document.createElement('img')
+        const userLogo: HTMLImageElement = document.createElement('img')
 
         userLogo.setAttribute('alt', 'user logo')
         userLogo.setAttribute('src', activeUserInfo[0].photoURL)
@@ -76,12 +81,13 @@ const showForActiveUser = () => {
 
         headerPanelBtn.after(logOutBtnWrapper)
 
-        userBtn.addEventListener('click', () => {
+        userBtn.addEventListener('click', (): void => {
+            window.localStorage.removeItem('currentArticle')
             window.location.href = '/pages/createArticle.html'
         })
 
     } else {
-        userBtn.addEventListener('click', () => {
+        userBtn.addEventListener('click', (): void => {
             window.location.href = '/pages/singIn.html'
         })
     }
@@ -89,24 +95,24 @@ const showForActiveUser = () => {
 
 showForActiveUser()
 
-const closePreview = () => {
+const closePreview = (): void => {
 
     window.history.back()
 }
 
-const showCurrentArticle = () => {
+const showCurrentArticle = (): void => {
 
-    const currentTitle = document.querySelector('.article_title')
+    const currentTitle: Element = document.querySelector('.article_title')
 
-    const authorName = document.querySelector('.author_info_name')
+    const authorName: Element = document.querySelector('.author_info_name')
 
-    const dateOfWriting = document.querySelector('.author_info_date')
+    const dateOfWriting: Element = document.querySelector('.author_info_date')
 
-    const currentImg = document.querySelector(".article_pic_wrapper img[alt='article picture']")
+    const currentImg: Element = document.querySelector(".article_pic_wrapper img[alt='article picture']")
 
-    const contentBlock = document.querySelector('.content_block')
+    const contentBlock: Element = document.querySelector('.content_block')
 
-    const articleTags = document.querySelector('.tags_article')
+    const articleTags: Element = document.querySelector('.tags_article')
 
     articleTags.innerHTML = ''
 
@@ -122,29 +128,29 @@ const showCurrentArticle = () => {
         dateOfWriting.textContent = previewContent.date
         contentBlock.innerHTML = ''
 
-        const amoutContent = previewContent.content
+        const amoutContent: { subtitle: string, text: string }[] = previewContent.content
 
-        amoutContent.forEach(element => {
+        amoutContent.forEach((element: { subtitle: string, text: string }) => {
 
-            const subtitle = document.createElement('h5')
+            const subtitle: HTMLHeadingElement = document.createElement('h5')
             subtitle.textContent = element.subtitle
             contentBlock.append(subtitle)
-            const paragraph = document.createElement('p')
+            const paragraph: HTMLParagraphElement = document.createElement('p')
             paragraph.textContent = element.text
             contentBlock.append(paragraph)
         })
 
-        const tags = previewContent.tags
+        const tags: string[] = previewContent.tags
 
-        tags.forEach(el => {
+        tags.forEach((el: string) => {
 
-            const btn = document.createElement('button')
+            const btn: HTMLButtonElement = document.createElement('button')
             btn.classList.add('tags_article_btn')
             btn.textContent = el
             articleTags.append(btn)
         })
 
-        const closePreviewEl = document.createElement('img')
+        const closePreviewEl: HTMLImageElement = document.createElement('img')
 
         closePreviewEl.setAttribute('src', '../img/close_preview.png')
         closePreviewEl.setAttribute('alt', 'close preview')
@@ -152,19 +158,19 @@ const showCurrentArticle = () => {
 
         closePreviewEl.addEventListener('click', closePreview)
 
-        const body = document.querySelector('body')
+        const body: HTMLBodyElement = document.querySelector('body')
 
         body.append(closePreviewEl)
 
-        const createPost = document.querySelectorAll('.create_post')
+        const createPost: NodeListOf<Element> = document.querySelectorAll('.create_post')
 
-        createPost.forEach(el => {
+        createPost.forEach((el: Element) => {
 
             el.setAttribute('disabled', 'disabled')
         })
         logoBackHome.removeEventListener('click', backToHome)
 
-        const home_link = document.querySelector(".home_link")
+        const home_link: HTMLElement = document.querySelector(".home_link")
 
         home_link.style.cssText = "pointer-events: none"
     }
@@ -179,29 +185,27 @@ const showCurrentArticle = () => {
         dateOfWriting.textContent = currentContent.date
         contentBlock.innerHTML = ''
 
-        const amoutContent = currentContent.content
+        const amoutContent: { subtitle: string, text: string }[] = currentContent.content
 
-        amoutContent.forEach(element => {
+        amoutContent.forEach((element: { subtitle: string, text: string }) => {
 
-            const subtitle = document.createElement('h5')
+            const subtitle: HTMLHeadingElement = document.createElement('h5')
             subtitle.textContent = element.subtitle
             contentBlock.append(subtitle)
-            const paragraph = document.createElement('p')
+            const paragraph: HTMLParagraphElement = document.createElement('p')
             paragraph.textContent = element.text
             contentBlock.append(paragraph)
         })
 
-        const tags = currentContent.tags
+        const tags: string[] = currentContent.tags
 
-        tags.forEach(el => {
+        tags.forEach((el: string) => {
 
-            const btn = document.createElement('button')
+            const btn: HTMLButtonElement = document.createElement('button')
             btn.classList.add('tags_article_btn')
             btn.textContent = el
             articleTags.append(btn)
         })
-
-        window.localStorage.removeItem('currentArticle')
     }
 }
 
