@@ -1,9 +1,17 @@
-import { fireBaseInit } from "./fireBase"
-import '../styles/sass/style.sass'
-import * as firebase from 'firebase'
+import firebase from "firebase/app"
+import "firebase/auth"
+import "firebase/firestore"
 
+var firebaseConfig = {
+    apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
+    authDomain: "leverxangular2021.firebaseapp.com",
+    projectId: "leverxangular2021",
+    storageBucket: "leverxangular2021.appspot.com",
+    messagingSenderId: "332942002633",
+    appId: "1:332942002633:web:02810808ceb15f2407c018"
+}
+firebase.initializeApp(firebaseConfig)
 
-fireBaseInit()
 
 interface articleArray {
     title: string
@@ -63,8 +71,8 @@ const logOut = ():void => {
 
 if (window.localStorage.getItem('activeUser')) {
 
-    const logOutBtnWrapper:Node = headerPanelBtn.cloneNode(true)
-    const logOutBtn: HTMLElement = logOutBtnWrapper.parentNode.querySelector('.create_post')
+    const logOutBtnWrapper:any = headerPanelBtn.cloneNode(true)
+    const logOutBtn: HTMLElement = logOutBtnWrapper.querySelector('.create_post')
     logOutBtn.textContent = 'Logout'
 
     logOutBtn.addEventListener('click', logOut)
@@ -181,7 +189,7 @@ const renderItemOfArticle = ():void => {
 
 const createElForArticle = () => {
     
-    let items:HTMLDivElement[] = articleArray.map((el:articleArray) => {
+    let items:HTMLDivElement[] = articleArray.map((el:any) => {
 
         const newItem:HTMLDivElement = document.createElement('div')
         newItem.setAttribute('id', el.id)

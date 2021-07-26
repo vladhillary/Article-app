@@ -1,3 +1,5 @@
+import firebase from "firebase/app"
+
 export var firebaseConfig = {
     apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
     authDomain: "leverxangular2021.firebaseapp.com",

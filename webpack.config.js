@@ -3,15 +3,17 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     mode: 'development',
+    devtool: 'source-map',
     entry: {
-        main_screen: path.resolve(__dirname, './scripts/main_screen.js'),
-        article: path.resolve(__dirname, './scripts/article.js'),
-        singIn: path.resolve(__dirname, './scripts/singIn.js'),
-        main: ['@babel/polyfill', './scripts/createArticle.js'],
+        main_screen: path.resolve(__dirname, './scripts/main_screen.ts'),
+        article: path.resolve(__dirname, './scripts/article.ts'),
+        singIn: path.resolve(__dirname, './scripts/singIn.ts'),
+        main: ['@babel/polyfill', './scripts/createArticle.ts'],
     },
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'bundle'),
+        publicPath: '/'
     },
 
     devServer: {
@@ -28,10 +30,6 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.sass$/,
-                use: ["style-loader", "css-loader", "sass-loader"]
-            },
-            {
                 test: /\.(png|svg|jpg)$/,
                 loader: 'file-loader',
                 options: {
@@ -46,7 +44,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env']
-                    }
+                    },
                 }
             },
             {
