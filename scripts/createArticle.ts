@@ -1,6 +1,7 @@
-import { fireBaseInit } from "./fireBase"
-import '../styles/sass/style.sass'
-import * as firebase from 'firebase'
+import firebase from "firebase/app"
+import "firebase/auth"
+import "firebase/firestore"
+import 'firebase/storage'
 
 interface newArticle {
     title: string
@@ -14,7 +15,15 @@ interface newArticle {
     id: number
 }
 
-fireBaseInit()
+var firebaseConfig = {
+    apiKey: "AIzaSyBz5rkxIf23dLVC4braw1ahuVbzGBmeHiE",
+    authDomain: "leverxangular2021.firebaseapp.com",
+    projectId: "leverxangular2021",
+    storageBucket: "leverxangular2021.appspot.com",
+    messagingSenderId: "332942002633",
+    appId: "1:332942002633:web:02810808ceb15f2407c018"
+}
+firebase.initializeApp(firebaseConfig)
 
 let img:any;
 let firestoreDatabase = firebase.firestore()
@@ -159,7 +168,7 @@ const bytesToSize = (bytes: number): string => {
 
     if (!bytes) return '0 Byte'
 
-    const i:number = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
+    const i = parseInt(`${Math.floor(Math.log(bytes) / Math.log(1024))}`)
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
@@ -172,7 +181,7 @@ const removeWarningForImg = (): void => {
 
 inputFile.addEventListener('change', (event: any) => {
 
-    let files:Blob[] = []
+    let files:any = []
 
     if (!event.target.files.length) return
 
@@ -216,7 +225,7 @@ inputFile.addEventListener('change', (event: any) => {
 
         const { name } = e.target.dataset
 
-        files = files.filter(el => el.name !== name)
+        files = files.filter((el:any) => el.name !== name)
 
         const block = preview.querySelector(`[data-name='${name}']`).closest('.preview_img_block')
 
@@ -232,11 +241,11 @@ const addNewBlockArticle = (): void => {
 
     const addNewBlockInputs: Element = document.querySelector('.add_new_block_wrapper')
 
-    let newBlock: Node = addNewBlockInputs.cloneNode(true)
+    let newBlock: any = addNewBlockInputs.cloneNode(true)
 
-    const newSubTitleInput: HTMLInputElement = newBlock.parentNode.querySelector('.subtitle_input')
+    const newSubTitleInput: HTMLInputElement = newBlock.querySelector('.subtitle_input')
 
-    const newTextarea: HTMLTextAreaElement = newBlock.parentNode.querySelector('textarea')
+    const newTextarea: HTMLTextAreaElement = newBlock.querySelector('textarea')
 
     newSubTitleInput.value = ''
     newTextarea.value = ''
@@ -411,11 +420,11 @@ const setValueAfterPreview = (): void => {
                 if (index !== 0) {
                     const addNewBlockInputs = document.querySelector('.add_new_block_wrapper')
 
-                    let newBlock = addNewBlockInputs.cloneNode(true)
+                    let newBlock:any = addNewBlockInputs.cloneNode(true)
 
-                    const newSubTitleInput:HTMLInputElement = newBlock.parentNode.querySelector('.subtitle_input')
+                    const newSubTitleInput:HTMLInputElement = newBlock.querySelector('.subtitle_input')
 
-                    const newTextarea:HTMLTextAreaElement = newBlock.parentNode.querySelector('textarea')
+                    const newTextarea:HTMLTextAreaElement = newBlock.querySelector('textarea')
 
                     newSubTitleInput.value = el.subtitle
                     newTextarea.value = el.text
